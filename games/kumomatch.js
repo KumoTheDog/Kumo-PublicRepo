@@ -28,6 +28,8 @@ class KumoMatch {
     this.currentPlayer = rand === 0 ? this.p1ID : this.p2ID;
     this.p1Turn = rand === 0 ? this.p1Turn : !this.p1Turn;
 
+    this.gameTimeout = null;
+
     this.lastArrayPosition = null;
     this.lastCol = null;
     this.lastPlayer = null;
@@ -151,22 +153,6 @@ class KumoMatch {
   }
 
   /**
-   * Sends an embed for the completion of the game.
-   */
-  async gameEnd(interaction, embed) {
-    const winnerEmbed = new MessageEmbed(embed)
-      .setTitle("Game completed!")
-      .setDescription(
-        "Congratulations to " +
-          this.lastPlayer.username +
-          " for winning Kumo Match! Hopefully you can keep up your streak... (⌐▨_▨)"
-      )
-      .setTimestamp();
-
-    await interaction.editReply({ embeds: [winnerEmbed], components: [] });
-  }
-
-  /**
    * Generates a new array and edits the message embed, every time a colour in the array is changed.
    */
   async createNewTurn(interaction, msg) {
@@ -194,6 +180,19 @@ class KumoMatch {
         text: `${interaction.member.displayName}`,
         iconURL: interaction.member.displayAvatarURL(),
       });
+
+    //Starts the new cooldown with a time limit of 2 minutes. If a new turn hasn't occurred in the last 2 minutes the game is stopped.
+    clearTimeout(this.gameTimeout);
+    this.gameTimeout = setTimeout(async () => {
+      const cooldownEnd = new MessageEmbed(editEmbed);
+      cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+      cooldownEnd.fields = [];
+      cooldownEnd.addField(
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+        "No one has played a turn in the last 2 minutes. The game has been stopped. ((´д｀))"
+      );
+      await msg.edit({ embeds: [cooldownEnd], components: [] });
+    }, 120000);
 
     if (this.checkBoardFull() === true) {
       const fullEmbed = new MessageEmbed(editEmbed);
@@ -500,6 +499,18 @@ class KumoMatch {
           .then(async (msg) => {
             console.log(`Sent beginning game board.`);
 
+            //The timeout is initialised once the game board is sent.
+            this.gameTimeout = setTimeout(async () => {
+              const cooldownEnd = new MessageEmbed(mainGameEmbed);
+              cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+              cooldownEnd.fields = [];
+              cooldownEnd.addField(
+                "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+                "The game has begun, but no one played a turn for 30 seconds, so the game has been stopped. ((´д｀))"
+              );
+              await msg.edit({ embeds: [cooldownEnd], components: [] });
+            }, 30000);
+
             const collector = msg.createMessageComponentCollector(
               (reaction, user) => user.id !== client.user.id,
               { dispose: true }
@@ -553,6 +564,7 @@ class KumoMatch {
               } else if (reaction.customId === "htp") {
                 this.gameHowToPlay(reaction);
               } else if (reaction.customId === "exit") {
+                clearTimeout(this.gameTimeout);
                 this.gameForceQuit(reaction.user.id, reaction, interaction);
               }
             });
