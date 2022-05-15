@@ -6,9 +6,10 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 const GAMEWIDTH = 9;
 const GAMEHEIGHT = 9;
-const gameArr = [];
+
 class KumoMatch {
   constructor(interactingUser, opponentUser, p1ColourChoice, p2ColourChoice) {
+    this.gameArr = [];
     let rand = Math.floor(Math.random() * 2);
     this.interactingUser = interactingUser;
 
@@ -31,9 +32,9 @@ class KumoMatch {
     this.lastCol = null;
     this.lastPlayer = null;
     for (let i = 0; i < GAMEHEIGHT; i++) {
-      gameArr[i] = [];
+      this.gameArr[i] = [];
       for (let j = 0; j < GAMEWIDTH; j++) {
-        gameArr[i][j] = "⬜";
+        this.gameArr[i][j] = "⬜";
       }
     }
     this.createGameBoard(interactingUser);
@@ -89,8 +90,8 @@ class KumoMatch {
     for (let i = 0; i < GAMEHEIGHT; i++) {
       for (let j = 0; j < GAMEWIDTH; j++) {
         j === GAMEWIDTH - 1
-          ? (str += (gameArr[i][j] + "|").substring(1))
-          : (str += "| " + gameArr[i][j] + " ");
+          ? (str += (this.gameArr[i][j] + "|").substring(1))
+          : (str += "| " + this.gameArr[i][j] + " ");
       }
       str += "\n";
     }
@@ -101,7 +102,7 @@ class KumoMatch {
     //If at any point in the array, there is a white square. It means the board is not full and so false. However, if no white squares the board is completely full.
     for (let i = 0; i < GAMEHEIGHT; i++) {
       for (let j = 0; j < GAMEWIDTH - 1; j++) {
-        if (gameArr[i][j] === "⬜") {
+        if (this.gameArr[i][j] === "⬜") {
           return false;
         }
       }
@@ -110,7 +111,7 @@ class KumoMatch {
   }
 
   checkRowFull(colNumber) {
-    if (gameArr[0][colNumber - 1] !== "⬜") {
+    if (this.gameArr[0][colNumber - 1] !== "⬜") {
       return true;
     } else {
       return false;
@@ -229,8 +230,8 @@ class KumoMatch {
   async addPiece(reaction, colNumber, interaction) {
     let chip = this.p1Turn ? this.p1Colour : this.p2Colour;
     for (let i = GAMEHEIGHT - 1; i >= 0; i--) {
-      if (gameArr[i][colNumber - 1] === "⬜") {
-        gameArr[i][colNumber - 1] = chip;
+      if (this.gameArr[i][colNumber - 1] === "⬜") {
+        this.gameArr[i][colNumber - 1] = chip;
         this.lastArrayPosition = i;
         this.lastCol = colNumber - 1;
         if (this.currentPlayer == this.p1ID) {
@@ -260,10 +261,10 @@ class KumoMatch {
         j + 4 < GAMEWIDTH
       ) {
         if (
-          gameArr[i][j] === gameArr[i][j + 1] &&
-          gameArr[i][j + 1] === gameArr[i][j + 2] &&
-          gameArr[i][j + 2] === gameArr[i][j + 3] &&
-          gameArr[i][j + 3] === gameArr[i][j + 4]
+          this.gameArr[i][j] === this.gameArr[i][j + 1] &&
+          this.gameArr[i][j + 1] === this.gameArr[i][j + 2] &&
+          this.gameArr[i][j + 2] === this.gameArr[i][j + 3] &&
+          this.gameArr[i][j + 3] === this.gameArr[i][j + 4]
         ) {
           check = true;
           break;
@@ -272,10 +273,10 @@ class KumoMatch {
       //Left(DONE)
       if (j - 1 >= 0 && j - 2 >= 0 && j - 3 >= 0 && j - 4 >= 0) {
         if (
-          gameArr[i][j] === gameArr[i][j - 1] &&
-          gameArr[i][j - 1] === gameArr[i][j - 2] &&
-          gameArr[i][j - 2] === gameArr[i][j - 3] &&
-          gameArr[i][j - 3] === gameArr[i][j - 4]
+          this.gameArr[i][j] === this.gameArr[i][j - 1] &&
+          this.gameArr[i][j - 1] === this.gameArr[i][j - 2] &&
+          this.gameArr[i][j - 2] === this.gameArr[i][j - 3] &&
+          this.gameArr[i][j - 3] === this.gameArr[i][j - 4]
         ) {
           check = true;
           break;
@@ -284,10 +285,10 @@ class KumoMatch {
       //Up (DOONE)
       if (i - 1 >= 0 && i - 2 >= 0 && i - 3 >= 0 && i - 4 >= 0) {
         if (
-          gameArr[i][j] === gameArr[i - 1][j] &&
-          gameArr[i - 1][j] === gameArr[i - 2][j] &&
-          gameArr[i - 2][j] === gameArr[i - 3][j] &&
-          gameArr[i - 3][j] === gameArr[i - 4][j]
+          this.gameArr[i][j] === this.gameArr[i - 1][j] &&
+          this.gameArr[i - 1][j] === this.gameArr[i - 2][j] &&
+          this.gameArr[i - 2][j] === this.gameArr[i - 3][j] &&
+          this.gameArr[i - 3][j] === this.gameArr[i - 4][j]
         ) {
           check = true;
           break;
@@ -301,10 +302,10 @@ class KumoMatch {
         i + 4 < GAMEHEIGHT
       ) {
         if (
-          gameArr[i][j] === gameArr[i + 1][j] &&
-          gameArr[i + 1][j] === gameArr[i + 2][j] &&
-          gameArr[i + 2][j] === gameArr[i + 3][j] &&
-          gameArr[i + 3][j] === gameArr[i + 4][j]
+          this.gameArr[i][j] === this.gameArr[i + 1][j] &&
+          this.gameArr[i + 1][j] === this.gameArr[i + 2][j] &&
+          this.gameArr[i + 2][j] === this.gameArr[i + 3][j] &&
+          this.gameArr[i + 3][j] === this.gameArr[i + 4][j]
         ) {
           check = true;
           break;
@@ -322,10 +323,10 @@ class KumoMatch {
         j + 4 < GAMEWIDTH
       ) {
         if (
-          gameArr[i][j] === gameArr[i + 1][j + 1] &&
-          gameArr[i + 1][j + 1] === gameArr[i + 2][j + 2] &&
-          gameArr[i + 2][j + 3] === gameArr[i + 3][j + 3] &&
-          gameArr[i + 3][j + 3] === gameArr[i + 4][j + 4]
+          this.gameArr[i][j] === this.gameArr[i + 1][j + 1] &&
+          this.gameArr[i + 1][j + 1] === this.gameArr[i + 2][j + 2] &&
+          this.gameArr[i + 2][j + 3] === this.gameArr[i + 3][j + 3] &&
+          this.gameArr[i + 3][j + 3] === this.gameArr[i + 4][j + 4]
         ) {
           check = true;
           break;
@@ -343,10 +344,10 @@ class KumoMatch {
         j - 4 >= 0
       ) {
         if (
-          gameArr[i][j] === gameArr[i - 1][j - 1] &&
-          gameArr[i - 1][j - 1] === gameArr[i - 2][j - 2] &&
-          gameArr[i - 2][j - 2] === gameArr[i - 3][j - 3] &&
-          gameArr[i - 3][j - 3] === gameArr[i - 4][j - 4]
+          this.gameArr[i][j] === this.gameArr[i - 1][j - 1] &&
+          this.gameArr[i - 1][j - 1] === this.gameArr[i - 2][j - 2] &&
+          this.gameArr[i - 2][j - 2] === this.gameArr[i - 3][j - 3] &&
+          this.gameArr[i - 3][j - 3] === this.gameArr[i - 4][j - 4]
         ) {
           check = true;
           break;
@@ -364,10 +365,10 @@ class KumoMatch {
         j + 4 < GAMEWIDTH
       ) {
         if (
-          gameArr[i][j] === gameArr[i - 1][j + 1] &&
-          gameArr[i - 1][j + 1] === gameArr[i - 2][j + 2] &&
-          gameArr[i - 2][j + 2] === gameArr[i - 3][j + 3] &&
-          gameArr[i - 3][j + 3] === gameArr[i - 4][j + 4]
+          this.gameArr[i][j] === this.gameArr[i - 1][j + 1] &&
+          this.gameArr[i - 1][j + 1] === this.gameArr[i - 2][j + 2] &&
+          this.gameArr[i - 2][j + 2] === this.gameArr[i - 3][j + 3] &&
+          this.gameArr[i - 3][j + 3] === this.gameArr[i - 4][j + 4]
         ) {
           check = true;
           break;
@@ -385,10 +386,10 @@ class KumoMatch {
         j - 4 >= 0
       ) {
         if (
-          gameArr[i][j] === gameArr[i + 1][j - 1] &&
-          gameArr[i + 1][j - 1] === gameArr[i + 2][j - 2] &&
-          gameArr[i + 2][j - 2] === gameArr[i + 3][j - 3] &&
-          gameArr[i + 3][j - 3] === gameArr[i + 4][j - 4]
+          this.gameArr[i][j] === this.gameArr[i + 1][j - 1] &&
+          this.gameArr[i + 1][j - 1] === this.gameArr[i + 2][j - 2] &&
+          this.gameArr[i + 2][j - 2] === this.gameArr[i + 3][j - 3] &&
+          this.gameArr[i + 3][j - 3] === this.gameArr[i + 4][j - 4]
         ) {
           check = true;
           break;
