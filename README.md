@@ -27,6 +27,7 @@ Once the code is all set up, you should then put in your own .env file to define
 
 BOTTOKEN=`Secret Token here` \
 CLIENTID=`Client ID here`\
+TEST_GUILD_ID=`ID of test server here, OPTIONAL`\
 DBTOKEN=`Link to access MongoDB cluster here, OPTIONAL`\
 ASTRING=`32 byte, base64 string here, REQUIRED IF DBTOKEN IS USED`\
 BSTRING=`64 byte, base64 string here, REQUIRED IF DBTOKEN IS USED`
