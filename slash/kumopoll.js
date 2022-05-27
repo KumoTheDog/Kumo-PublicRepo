@@ -6,6 +6,8 @@ const {
   MessageButton,
 } = require("discord.js");
 
+//Generates a dynamically changing embed poll based on two responses. Field for total amount of user reactions until the embed closes.
+//Capped at a certain point to remove crashing.
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("kumopoll")
@@ -51,6 +53,7 @@ module.exports = {
     let r2 = interaction.options.getString("response2");
     let threshold = interaction.options.getInteger("total_responses");
     console.log(threshold);
+    //Checks for negative threshold values and if the length of the choices are greater than 60 characters (otherwise not allowed to be put in embed)
     if (threshold <= 0 || threshold >= 50)
       return interaction.editReply("Invalid total votes. Please try again.");
     if (question.length >= 60 || r1.length >= 60 || r2.length >= 60)
@@ -58,6 +61,7 @@ module.exports = {
         "Invalid structure. Please limit your parameters to 60 characters."
       );
 
+    //Creates the initial embed with no votes.
     let embed = new MessageEmbed();
     embed.setTitle(`${question}` + "?");
     embed.setDescription("Status: **Place your votes now!**");
@@ -69,6 +73,7 @@ module.exports = {
       iconURL: interaction.member.displayAvatarURL(),
     });
 
+    //Adds the interacting buttons to the embed, so users can vote.
     const row = new MessageActionRow().addComponents(
       new MessageButton()
         .setCustomId("b1")
@@ -107,6 +112,8 @@ module.exports = {
           await msg.edit({ embeds: [newEmbed], components: [] });
         }
 
+        //Whenever this function is called, the embed is updated with the new values for the poll once a new user interacts.
+        //Dynamically shows all users interacting with a specific command as well as the accurate percentage.
         async function update() {
           const newEmbed = new MessageEmbed(embed);
 
@@ -129,15 +136,15 @@ module.exports = {
             await stop(
               `${yesPercent}% of voters chose the first option (${r1}) whereas ${noPercent}% of voters chose the second (${r2}) :)`
             );
-            // do something
           } else if (votes["b2"].size >= th) {
             await stop(
               `${yesPercent}% of voters chose the first option (${r1}) whereas ${noPercent}% of voters chose the second (${r2}) :)`
             );
-            // do something
           }
         }
 
+        //A set is a good construct to use here - it disallows multiple values (AKA in this scenario, when a user clicks on the button
+        //they are stored in a set, in order to easily check if they are about to click this button twice.)
         const votes = {
           b1: new Set(),
           b2: new Set(),
@@ -151,6 +158,7 @@ module.exports = {
         );
 
         collector.on("collect", async (reaction, user) => {
+          //If the user has already clicked a button, if they click it twice in a row they are prompted to click another.
           if (reaction.customId === "b1") {
             if (votes["b1"].has(reaction.user)) {
               await reaction.reply({
@@ -180,6 +188,7 @@ module.exports = {
               });
             }
           } else if (reaction.customId === "re") {
+            //If the user chooses the remove button without actually voting, they are prompted to vote first.
             if (
               !votes["b1"].has(reaction.user) &&
               !votes["b2"].has(reaction.user)
