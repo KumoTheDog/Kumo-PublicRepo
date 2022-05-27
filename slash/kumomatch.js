@@ -126,7 +126,7 @@ module.exports = {
               .then(() => {
                 setTimeout(() => interaction.deleteReply(), 30000);
               });
-          }, 10000);
+          }, 30000);
 
           //Collector is started to record the interactions with the buttons as well as to check who it is interacting with them.
           collector.on("collect", async (reaction, user) => {
