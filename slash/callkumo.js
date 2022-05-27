@@ -36,6 +36,7 @@ module.exports = {
         .then((channel) => {
           const connection = getVoiceConnection(channel.guild.id);
 
+          //Fetches the corresponding intro sound from the resources folder.
           let resource = createAudioResource(
             createReadStream(join(__dirname, "../resources/kumo.wav")),
             {
@@ -52,6 +53,7 @@ module.exports = {
             return;
           }
           console.log("Playing intro sound...");
+          //Provides textual indication that kumo has joined the vc.
           interaction.editReply("Kumo has joined your VC! (＝⌒▽⌒＝)");
           setTimeout(() => player.stop(), 2000);
         })
@@ -75,6 +77,7 @@ module.exports = {
           let prompt;
           const randEffect = Math.floor(Math.random() * 4);
 
+          //A randomly chosen sound effect is produced depending on the value of randEffect.
           switch (randEffect) {
             case 0:
               soundEffect = createAudioResource(
@@ -156,6 +159,8 @@ module.exports = {
           return;
         }
 
+        //A connection is established to a voice channel, allowing Kumo to listen for which users start and finish talking,
+        //giving Kumo ample time to generate a response.
         connection = joinVoiceChannel({
           channelId: channel.id,
           guildId: channel.guild.id,
