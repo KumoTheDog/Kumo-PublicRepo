@@ -1,18 +1,22 @@
+//Only imports needed for the game are native to discord.js!
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
-/**
- * Make a required string option for a user mention. Make the two player logic (EG Stopping second user input while first is playing)
- */
-
+//Width of game board
 const GAMEWIDTH = 9;
+//Height of game board
 const GAMEHEIGHT = 9;
 
 class KumoMatch {
+  //Begin initialising instances of game.
   constructor(interactingUser, opponentUser, p1ColourChoice, p2ColourChoice) {
+    //The gameboard is stored as an array, which will soon be turned into a 2d in order to easily fetch specific coordinates of the game.
     this.gameArr = [];
+
+    //Random user is chosen when the game is initialised as the starting player. 50/50 chance.
     let rand = Math.floor(Math.random() * 2);
     this.interactingUser = interactingUser;
 
+    //Information fetched about the players passed in through the slash command file.
     this.p1ID = interactingUser.user.id;
     this.p2ID = opponentUser.id;
     this.p1User = interactingUser.user.username;
@@ -20,6 +24,8 @@ class KumoMatch {
 
     this.p1Colour = null;
     this.p2Colour = null;
+
+    //Separate method for determining player colours
     this.choosePlayerColours(interactingUser, p1ColourChoice, p2ColourChoice);
 
     this.mainEmbed = null;
@@ -28,11 +34,15 @@ class KumoMatch {
     this.currentPlayer = rand === 0 ? this.p1ID : this.p2ID;
     this.p1Turn = rand === 0 ? this.p1Turn : !this.p1Turn;
 
+    //Used for storing the various timeouts that can take effect over the course of the game.
     this.gameTimeout = null;
 
+    //Reference to the positions in the array as well as the last player - used to determine who placed the winning move.
     this.lastArrayPosition = null;
     this.lastCol = null;
     this.lastPlayer = null;
+
+    //Turn the initial array into 2D, based on the height and width constants specified at the beginning of the file.
     for (let i = 0; i < GAMEHEIGHT; i++) {
       this.gameArr[i] = [];
       for (let j = 0; j < GAMEWIDTH; j++) {
@@ -42,6 +52,7 @@ class KumoMatch {
     this.createGameBoard(interactingUser);
   }
 
+  //Simple use of switch cases to link an actual colour emoji to each player.
   async choosePlayerColours(interaction, p1Choice, p2Choice) {
     if (p1Choice === p2Choice) {
       await interaction.editReply(
@@ -86,6 +97,7 @@ class KumoMatch {
     }
   }
 
+  //Render the game array as a string representation which can easily be put into a Discord MessageEmbed.
   gameToString() {
     let str = "| 1️⃣ | 2️⃣ | 3️⃣ | 4️⃣ | 5️⃣ | 6️⃣ | 7️⃣ | 8️⃣ |\n";
     str += "-----------------------------------------\n";
@@ -168,9 +180,6 @@ class KumoMatch {
       .setTitle("Welcome to Kumo Match!")
       .setColor("#dda15c")
       .setDescription(this.gameToString())
-      /**
-       * Colours will be purple + blue
-       */
       .addField(
         "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
         newTurn + ": Awaiting " + newUser + "'s next move."
@@ -194,6 +203,7 @@ class KumoMatch {
       await msg.edit({ embeds: [cooldownEnd], components: [] });
     }, 120000);
 
+    //When a new turn is created, if the board becomes completely full then a draw occurs and no more moves are possible. The game stops.
     if (this.checkBoardFull() === true) {
       const fullEmbed = new MessageEmbed(editEmbed);
       fullEmbed.title = fullEmbed.title + " [FULL]";
@@ -204,6 +214,8 @@ class KumoMatch {
       );
       await msg.edit({ embeds: [fullEmbed], components: [] });
     } else if (
+      //Every time a new turn happens, a quick check O(1) is undertaken to see if there are any winning moves. If yes, the game stops
+      //and a winner is clearly defined.
       this.checkIfWon(this.lastArrayPosition, this.lastCol, interaction) ===
       true
     ) {
@@ -226,6 +238,8 @@ class KumoMatch {
     }
   }
 
+  //Places a chip into a specified column. A for loop goes through the elements corresponding to this column number in the 2D array
+  // and places the chip in the next available white space.
   async addPiece(reaction, colNumber, interaction) {
     let chip = this.p1Turn ? this.p1Colour : this.p2Colour;
     for (let i = GAMEHEIGHT - 1; i >= 0; i--) {
@@ -246,13 +260,18 @@ class KumoMatch {
   }
 
   /**
-   * Checks the possible winning conditions of a player.
+   * Checks the possible winning conditions of a player. Works by using the reference of the last placed piece, then checking
+   * if the subsequent 4 chips in ALL directions: Left, right, up , down, NE, SE, NW, SW are equal in any of these ways. If yes, then
+   * a win happens but if not the game continues.
+   *
+   * Further checks happen in edge cases for undefined values. If ANY of the subsequent 4 chips are NOT in the range of the game dimensions
+   * that winning condition check doesn't occur as it is inevitable that one of these elements would evaluate to "undefined" therefore
+   * crashing the game.
    */
   checkIfWon(i, j, interactionToEdit) {
     let check = null;
-    //TODO: Check for the null values when piece is placed on the edge of the board.
     while (check === null) {
-      //Right (Done)
+      //Right - checks j+1,j+2...
       if (
         j + 1 < GAMEWIDTH &&
         j + 2 < GAMEWIDTH &&
@@ -269,7 +288,7 @@ class KumoMatch {
           break;
         }
       }
-      //Left(DONE)
+      //Left - checks j-1, j-2...
       if (j - 1 >= 0 && j - 2 >= 0 && j - 3 >= 0 && j - 4 >= 0) {
         if (
           this.gameArr[i][j] === this.gameArr[i][j - 1] &&
@@ -281,7 +300,7 @@ class KumoMatch {
           break;
         }
       }
-      //Up (DOONE)
+      //Up - checks i-1, i-2...
       if (i - 1 >= 0 && i - 2 >= 0 && i - 3 >= 0 && i - 4 >= 0) {
         if (
           this.gameArr[i][j] === this.gameArr[i - 1][j] &&
@@ -293,7 +312,7 @@ class KumoMatch {
           break;
         }
       }
-      //Down (Done)
+      //Down - checks i+1, i+2...
       if (
         i + 1 < GAMEHEIGHT &&
         i + 2 < GAMEHEIGHT &&
@@ -310,7 +329,7 @@ class KumoMatch {
           break;
         }
       }
-      //SE Diagonal (done)
+      //SE Diagonal - checks i+1/j+1 , i+2/j+2...
       if (
         i + 1 < GAMEHEIGHT &&
         j + 1 < GAMEWIDTH &&
@@ -331,7 +350,7 @@ class KumoMatch {
           break;
         }
       }
-      //NW Diagonal (done)
+      //NW Diagonal - checks i-1/j-1, i-2/j-2...
       if (
         i - 1 >= 0 &&
         j - 1 >= 0 &&
@@ -352,7 +371,7 @@ class KumoMatch {
           break;
         }
       }
-      //NE Diagonal (done)
+      //NE Diagonal - checks i-1/j+1, i-2,j+2...
       if (
         i - 1 >= 0 &&
         j + 1 < GAMEWIDTH &&
@@ -373,7 +392,7 @@ class KumoMatch {
           break;
         }
       }
-      //SW Diagonal
+      //SW Diagonal - checks i+1/j-1 , i+2/j-2...
       if (
         i + 1 < GAMEHEIGHT &&
         j - 1 >= 0 &&
@@ -400,6 +419,7 @@ class KumoMatch {
     return check;
   }
 
+  //Create the initial game board, set up the player turns and put the array into the embed.
   async createGameBoard(interaction) {
     let newUser = this.p1Turn ? this.p1User : this.p2User;
     let firstColour;
@@ -417,6 +437,7 @@ class KumoMatch {
       )
       .setColor("RED");
 
+    //Message buttons are prevalent throughout the game - they are the main source of communication.
     await interaction.editReply({ embeds: [introEmbed] }).then(
       setTimeout(async () => {
         const gameRow = new MessageActionRow().addComponents(
@@ -478,9 +499,6 @@ class KumoMatch {
           .setTitle("Welcome to Kumo Match!")
           .setColor("#dda15c")
           .setDescription(this.gameToString())
-          /**
-           * Colours will be purple + blue
-           */
           .addField(
             "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
             String(firstColour) + ": Awaiting " + newUser + "'s next move."
@@ -499,7 +517,9 @@ class KumoMatch {
           .then(async (msg) => {
             console.log(`Sent beginning game board.`);
 
-            //The timeout is initialised once the game board is sent.
+            //The timeout is initialised once the game board is sent. If no moves occur in the first 30 seconds it is assumed that players are AFK
+            //and the game automatically stops.
+            //If a move occurs then the timeout of 2 minutes for each move begins.
             this.gameTimeout = setTimeout(async () => {
               const cooldownEnd = new MessageEmbed(mainGameEmbed);
               cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
@@ -515,6 +535,7 @@ class KumoMatch {
               (reaction, user) => user.id !== client.user.id,
               { dispose: true }
             );
+            //Starts a message collector - each number button should have the same action associated with it, just for a different row.
             collector.on("collect", async (reaction, user) => {
               if (
                 reaction.customId === "1" ||
