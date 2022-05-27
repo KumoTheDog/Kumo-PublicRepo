@@ -205,6 +205,7 @@ class KumoMatch {
 
     //When a new turn is created, if the board becomes completely full then a draw occurs and no more moves are possible. The game stops.
     if (this.checkBoardFull() === true) {
+      clearTimeout(this.gameTimeout);
       const fullEmbed = new MessageEmbed(editEmbed);
       fullEmbed.title = fullEmbed.title + " [FULL]";
       fullEmbed.fields = [];
@@ -219,6 +220,7 @@ class KumoMatch {
       this.checkIfWon(this.lastArrayPosition, this.lastCol, interaction) ===
       true
     ) {
+      clearTimeout(this.gameTimeout);
       const winnerEmbed = new MessageEmbed(editEmbed);
       winnerEmbed.title = winnerEmbed.title + " [FINISHED]";
       winnerEmbed.fields = [];
