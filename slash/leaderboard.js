@@ -10,30 +10,34 @@ module.exports = {
     ),
 
   run: async ({ client, interaction }) => {
+    //Stops any unwanted inputs (in DMs.)
     if (!interaction.guild) {
       return interaction.editReply(
         "You cannot check the leaderboards in a DM."
       );
     }
 
+    //If you are running the bot using the public version, this command WILL NOT WORK unless you have a mongoDB link and a generated encryption/signing key.
     if (!process.env.DBTOKEN || !process.env.ASTRING || !process.env.BSTRING) {
       return interaction.editReply(
         "This command cannot execute without a database. Please make sure you have: The link to the DB, a 32 bit encryption key and a 64 bit signing key."
       );
     }
 
+    //Initial values for user positions - users who have not tried out the bot yet.
     let indivGlobal = "Unidentified - Hasn't Spoken yet";
     let indivPosition = "N/A";
 
     let indivVoiceGlobal = "Unidentified - Hasn't Spoken yet";
     let indivVoicePosition = "N/A";
 
+    //Gets all the entries from the databases in a sorted fashion.
     const messageOrdered = await Messages.find({}).sort({ messages: -1 });
 
     let content = "";
     let voiceContent = "";
 
-    //Text positions
+    //Loop for the top five TEXT users.
 
     for (let i = 0; i < messageOrdered.length; i++) {
       if (messageOrdered[i].UserID == interaction.user.id) {
@@ -62,9 +66,10 @@ module.exports = {
       }
     }
 
+    //Gets all the entries in the database but this time sort based on voice rather than text messages.
     const voiceOrdered = await Messages.find({}).sort({ voiceMessages: -1 });
 
-    //voice positions
+    //Loops for the top 5 VOICE users.
 
     for (let i = 0; i < voiceOrdered.length; i++) {
       if (voiceOrdered[i].UserID == interaction.user.id) {
@@ -102,7 +107,7 @@ module.exports = {
     }
 
     /**
-     * Compiles everything calculated above, putting it into one embed.
+     * Compiles everything calculated above, putting it into one embed which can easily be viewed.
      */
     const embed = new MessageEmbed();
     embed
