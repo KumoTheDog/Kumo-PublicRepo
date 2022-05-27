@@ -124,7 +124,7 @@ module.exports = {
             await msg
               .edit({ embeds: [cooldownEnd], components: [] })
               .then(() => {
-                setTimeout(() => interaction.deleteReply(), 10000);
+                setTimeout(() => interaction.deleteReply(), 30000);
               });
           }, 10000);
 
