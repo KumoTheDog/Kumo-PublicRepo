@@ -14,10 +14,12 @@ module.exports = {
     .setDescription("Kick Kumo from the current VC."),
 
   run: async ({ client, interaction }) => {
+    //Stops users from doing commands in an unwanted manner (in DMS).
     if (!interaction.guild) {
       return interaction.editReply("You cannot kick Kumo in a DM.");
     }
 
+    //Fetches the hangup sound from the resources folder and plays it to any current users in the same VC
     function hangUp(channelId) {
       client.channels
         .fetch(channelId)
@@ -38,10 +40,12 @@ module.exports = {
         .catch(console.error);
     }
 
+    //Gets the current VC that Kumo is attached to in a particular guild.
     console.log(interaction.guild.id);
     const connection = getVoiceConnection(interaction.guild.id);
     if (!interaction.member.voice.channel)
       return interaction.editReply("You must be in a VC to kick Kumo.");
+    //When there is no connection the command cannot run.
     if (!connection)
       return interaction.editReply("Kumo isn't currently in a VC!");
 
@@ -50,6 +54,7 @@ module.exports = {
 
     await interaction.editReply("Kumo has been kicked from the VC. ((´д｀))");
 
+    //Destroys connection as clean up.
     setTimeout(function () {
       connection.destroy();
     }, 1900);
