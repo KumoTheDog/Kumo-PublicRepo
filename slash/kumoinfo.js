@@ -11,13 +11,16 @@ module.exports = {
   timeout: 10000,
 
   run: async ({ client, interaction }) => {
+    //Retrieves the total amount of bot RAM use.
     let ramUsage =
       (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2) + "MB";
 
+    //Displays a running total of the total members in all guilds the bot is in.
     const totalMembers = client.guilds.cache
       .map((guild) => guild.memberCount)
       .reduce((a, b) => a + b, 0);
 
+    //Message embed concisely displays all of this info.
     let infoEmbed = new MessageEmbed()
       .setAuthor({
         name: `${client.user.username} Statistics`,
