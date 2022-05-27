@@ -11,11 +11,12 @@ module.exports = {
         .setDescription("Question to ask Kumo.")
         .setRequired(true)
     ),
+  //10 second cooldown to stop the user from cheating the gaining of leaderboard spots.
   timeout: 10000,
 
   run: async ({ interaction }) => {
     /**
-     * Array to hold the attachments to send based on the random response.
+     * Array to hold the attachments to send based on the random response. Dynamically changes depending on the random number chosen.
      */
     let arr = ["./resources/main_logo.png"];
 
@@ -25,6 +26,7 @@ module.exports = {
 
     let question = interaction.options.getString("questions");
 
+    //Removes all question marks as a bold one will be included in the final embed.
     let noMark = question.replaceAll("?", "");
 
     let embed = new MessageEmbed();
@@ -49,6 +51,7 @@ module.exports = {
      * Yes and no are the most likely responses, followed by laughing. Then, the least desirable responses, ugh and custom response are least likely.
      */
     switch (rand) {
+      //Yes has a 3/10 chance of appearing.
       case 0:
       case 1:
       case 2:
@@ -57,6 +60,7 @@ module.exports = {
         arr.push("./resources/yes.png");
         break;
 
+      //No has a 3/10 chance of appearing.
       case 3:
       case 4:
       case 5:
@@ -65,6 +69,7 @@ module.exports = {
         embed.setImage("attachment://no.png");
         break;
 
+      //Laughing has a 1/5 chance of appearing.
       case 6:
       case 7:
         embed.addField("Kumo:", "***Hoh hoh hoooh! ＼(≧▽≦)／***");
@@ -72,12 +77,14 @@ module.exports = {
         arr.push("./resources/laugh.png");
         break;
 
+      //Disgust has a 1/10 chance of appearing.
       case 8:
         embed.addField("Kumo:", "***Ugh... ಠ ೧ ಠ***");
         embed.setImage("attachment://ugh.png");
         arr.push("./resources/ugh.png");
         break;
 
+      //Blush has a 1/10 chance of appearing.
       case 9:
         embed.addField("Kumo:", "***... (´艸｀〃)***");
         embed.setImage("attachment://weird.png");
