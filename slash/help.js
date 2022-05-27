@@ -11,7 +11,8 @@ module.exports = {
       return interaction.editReply("You cannot ask for help in a DM.");
     }
     /**
-     * Constructs the main help embed.
+     * Constructs the simple help embed. Has lots of fields for the various commands, which will always be added to! Also has links to the support server,
+     * an invite link for the bot and link to top.gg.
      */
     const embed = new MessageEmbed();
     embed.setAuthor({ name: "Kumo The Dog" });
