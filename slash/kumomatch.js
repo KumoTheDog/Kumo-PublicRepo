@@ -124,7 +124,7 @@ module.exports = {
             await msg
               .edit({ embeds: [cooldownEnd], components: [] })
               .then(() => {
-                setTimeout(() => interaction.deleteReply(), 30000);
+                setTimeout(() => interaction.deleteReply(), 10000);
               });
           }, 30000);
 
@@ -143,6 +143,7 @@ module.exports = {
               reaction.customId === "yes" &&
               reaction.user.id === interaction.options.getUser("opponent").id
             ) {
+              await msg.edit({ components: [] });
               clearTimeout(afk);
               collector.stop();
               await reaction.deferUpdate();

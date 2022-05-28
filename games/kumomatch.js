@@ -627,7 +627,7 @@ class KumoMatch {
               .catch(async (e) => {
                 console.log("RANDOM DISCORD API ERROR (NON FATAL)" + e);
                 await interaction.editReply(
-                  "Kumo couldn't start the game this time. Please try again."
+                  "Kumo couldn't start a game this time. Please try again."
                 );
                 return;
               });
