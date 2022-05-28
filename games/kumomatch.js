@@ -112,6 +112,22 @@ class KumoMatch {
     return str;
   }
 
+  //Render the game board for initial display to demonstrate to the user how to place chips.
+  gameRepresentationToString() {
+    let str = "| 1️⃣ | 2️⃣ | 3️⃣ | 4️⃣ | 5️⃣ | 6️⃣ | 7️⃣ | 8️⃣ |\n";
+    str += "| ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ | ⬇️ |\n";
+    str += "-----------------------------------------\n";
+    for (let i = 0; i < GAMEHEIGHT; i++) {
+      for (let j = 0; j < GAMEWIDTH; j++) {
+        j === GAMEWIDTH - 1
+          ? (str += (this.gameArr[i][j] + "|").substring(1))
+          : (str += "| " + this.gameArr[i][j] + " ");
+      }
+      str += "\n";
+    }
+    return str;
+  }
+
   checkBoardFull() {
     //If at any point in the array, there is a white square. It means the board is not full and so false. However, if no white squares the board is completely full.
     for (let i = 0; i < GAMEHEIGHT; i++) {
@@ -430,6 +446,7 @@ class KumoMatch {
     } else {
       firstColour = this.p2Colour;
     }
+
     const introEmbed = new MessageEmbed()
       .setTitle("Setting up game...")
       .setDescription(
@@ -442,163 +459,180 @@ class KumoMatch {
     //Message buttons are prevalent throughout the game - they are the main source of communication.
     await interaction.editReply({ embeds: [introEmbed] }).then(
       setTimeout(async () => {
-        const gameRow = new MessageActionRow().addComponents(
-          new MessageButton()
-            .setCustomId("1")
-            .setLabel(`1️⃣`)
-            .setStyle("SECONDARY"),
-
-          new MessageButton()
-            .setCustomId("2")
-            .setLabel(`2️⃣`)
-            .setStyle("SECONDARY"),
-
-          new MessageButton()
-            .setCustomId("3")
-            .setLabel(`3️⃣`)
-            .setStyle("SECONDARY"),
-
-          new MessageButton()
-            .setCustomId("4")
-            .setLabel(`4️⃣`)
-            .setStyle("SECONDARY")
-        );
-
-        const gameRow2 = new MessageActionRow().addComponents(
-          new MessageButton()
-            .setCustomId("5")
-            .setLabel(`5️⃣`)
-            .setStyle("SECONDARY"),
-
-          new MessageButton()
-            .setCustomId("6")
-            .setLabel(`6️⃣`)
-            .setStyle("SECONDARY"),
-
-          new MessageButton()
-            .setCustomId("7")
-            .setLabel(`7️⃣`)
-            .setStyle("SECONDARY"),
-
-          new MessageButton()
-            .setCustomId("8")
-            .setLabel(`8️⃣`)
-            .setStyle("SECONDARY")
-        );
-
-        const miscRow = new MessageActionRow().addComponents(
-          new MessageButton()
-            .setCustomId("htp")
-            .setLabel(`How to Play 💬`)
-            .setStyle("SUCCESS"),
-
-          new MessageButton()
-            .setCustomId("exit")
-            .setLabel(`Quit Game ❌`)
-            .setStyle("DANGER")
-        );
-        const mainGameEmbed = new MessageEmbed()
+        const representationEmbed = new MessageEmbed()
           .setTitle("Welcome to Kumo Match!")
           .setColor("#dda15c")
-          .setDescription(this.gameToString())
+          .setDescription(this.gameRepresentationToString())
           .addField(
-            "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-            String(firstColour) + ": Awaiting " + newUser + "'s next move."
+            "Game Description",
+            "Match 5 of your chips in a row, in any orientation across the board. You can win the game by having a line of 5 chips **vertically, horizontally or diagonally**. The game will start shortly!"
           )
           .setTimestamp()
           .setFooter({
             text: `${interaction.member.displayName}`,
             iconURL: interaction.member.displayAvatarURL(),
           });
+        await interaction.editReply({ embeds: [representationEmbed] }).then(
+          setTimeout(async () => {
+            const gameRow = new MessageActionRow().addComponents(
+              new MessageButton()
+                .setCustomId("1")
+                .setLabel(`1️⃣`)
+                .setStyle("SECONDARY"),
 
-        await interaction
-          .editReply({
-            embeds: [mainGameEmbed],
-            components: [gameRow, gameRow2, miscRow],
-          })
-          .then(async (msg) => {
-            console.log(`Sent beginning game board.`);
+              new MessageButton()
+                .setCustomId("2")
+                .setLabel(`2️⃣`)
+                .setStyle("SECONDARY"),
 
-            //The timeout is initialised once the game board is sent. If no moves occur in the first 30 seconds it is assumed that players are AFK
-            //and the game automatically stops.
-            //If a move occurs then the timeout of 2 minutes for each move begins.
-            this.gameTimeout = setTimeout(async () => {
-              const cooldownEnd = new MessageEmbed(mainGameEmbed);
-              cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
-              cooldownEnd.fields = [];
-              cooldownEnd.addField(
+              new MessageButton()
+                .setCustomId("3")
+                .setLabel(`3️⃣`)
+                .setStyle("SECONDARY"),
+
+              new MessageButton()
+                .setCustomId("4")
+                .setLabel(`4️⃣`)
+                .setStyle("SECONDARY")
+            );
+
+            const gameRow2 = new MessageActionRow().addComponents(
+              new MessageButton()
+                .setCustomId("5")
+                .setLabel(`5️⃣`)
+                .setStyle("SECONDARY"),
+
+              new MessageButton()
+                .setCustomId("6")
+                .setLabel(`6️⃣`)
+                .setStyle("SECONDARY"),
+
+              new MessageButton()
+                .setCustomId("7")
+                .setLabel(`7️⃣`)
+                .setStyle("SECONDARY"),
+
+              new MessageButton()
+                .setCustomId("8")
+                .setLabel(`8️⃣`)
+                .setStyle("SECONDARY")
+            );
+
+            const miscRow = new MessageActionRow().addComponents(
+              new MessageButton()
+                .setCustomId("htp")
+                .setLabel(`How to Play 💬`)
+                .setStyle("SUCCESS"),
+
+              new MessageButton()
+                .setCustomId("exit")
+                .setLabel(`Quit Game ❌`)
+                .setStyle("DANGER")
+            );
+            const mainGameEmbed = new MessageEmbed()
+              .setTitle("Welcome to Kumo Match!")
+              .setColor("#dda15c")
+              .setDescription(this.gameToString())
+              .addField(
                 "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-                "The game has begun, but no one played a turn for 30 seconds, so the game has been stopped. ((´д｀))"
-              );
-              await msg.edit({ embeds: [cooldownEnd], components: [] });
-            }, 30000);
+                String(firstColour) + ": Awaiting " + newUser + "'s next move."
+              )
+              .setTimestamp()
+              .setFooter({
+                text: `${interaction.member.displayName}`,
+                iconURL: interaction.member.displayAvatarURL(),
+              });
 
-            const collector = msg.createMessageComponentCollector(
-              (reaction, user) => user.id !== client.user.id,
-              { dispose: true }
-            );
-            //Starts a message collector - each number button should have the same action associated with it, just for a different row.
-            collector.on("collect", async (reaction, user) => {
-              if (
-                reaction.customId === "1" ||
-                reaction.customId === "2" ||
-                reaction.customId === "3" ||
-                reaction.customId === "4" ||
-                reaction.customId === "5" ||
-                reaction.customId === "6" ||
-                reaction.customId === "7" ||
-                reaction.customId === "8"
-              ) {
-                if (
-                  reaction.user.id !== this.currentPlayer &&
-                  (reaction.user.id === this.p1ID ||
-                    reaction.user.id === this.p2ID)
-                ) {
-                  await reaction.reply({
-                    content: "Please wait for your turn!",
-                    ephemeral: true,
-                  });
-                } else if (
-                  reaction.user.id !== this.p1ID &&
-                  reaction.user.id !== this.p2ID
-                ) {
-                  await reaction.reply({
-                    content:
-                      "It seems you are not part of this game. Please stop interfering!",
-                    ephemeral: true,
-                  });
-                } else {
-                  if (this.checkRowFull(parseInt(reaction.customId))) {
-                    await reaction.reply({
-                      content:
-                        "This column seems to be full. try placing it somewhere else.",
-                      ephemeral: true,
-                    });
-                  } else {
-                    this.addPiece(
-                      reaction,
-                      parseInt(reaction.customId),
-                      interaction
-                    );
-                    this.createNewTurn(interaction, msg);
-                    await reaction.deferUpdate();
+            await interaction
+              .editReply({
+                embeds: [mainGameEmbed],
+                components: [gameRow, gameRow2, miscRow],
+              })
+              .then(async (msg) => {
+                console.log(`Sent beginning game board.`);
+
+                //The timeout is initialised once the game board is sent. If no moves occur in the first 30 seconds it is assumed that players are AFK
+                //and the game automatically stops.
+                //If a move occurs then the timeout of 2 minutes for each move begins.
+                this.gameTimeout = setTimeout(async () => {
+                  const cooldownEnd = new MessageEmbed(mainGameEmbed);
+                  cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+                  cooldownEnd.fields = [];
+                  cooldownEnd.addField(
+                    "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+                    "The game has begun, but no one played a turn for 30 seconds, so the game has been stopped. ((´д｀))"
+                  );
+                  await msg.edit({ embeds: [cooldownEnd], components: [] });
+                }, 30000);
+
+                const collector = msg.createMessageComponentCollector(
+                  (reaction, user) => user.id !== client.user.id,
+                  { dispose: true }
+                );
+                //Starts a message collector - each number button should have the same action associated with it, just for a different row.
+                collector.on("collect", async (reaction, user) => {
+                  if (
+                    reaction.customId === "1" ||
+                    reaction.customId === "2" ||
+                    reaction.customId === "3" ||
+                    reaction.customId === "4" ||
+                    reaction.customId === "5" ||
+                    reaction.customId === "6" ||
+                    reaction.customId === "7" ||
+                    reaction.customId === "8"
+                  ) {
+                    if (
+                      reaction.user.id !== this.currentPlayer &&
+                      (reaction.user.id === this.p1ID ||
+                        reaction.user.id === this.p2ID)
+                    ) {
+                      await reaction.reply({
+                        content: "Please wait for your turn!",
+                        ephemeral: true,
+                      });
+                    } else if (
+                      reaction.user.id !== this.p1ID &&
+                      reaction.user.id !== this.p2ID
+                    ) {
+                      await reaction.reply({
+                        content:
+                          "It seems you are not part of this game. Please stop interfering!",
+                        ephemeral: true,
+                      });
+                    } else {
+                      if (this.checkRowFull(parseInt(reaction.customId))) {
+                        await reaction.reply({
+                          content:
+                            "This column seems to be full. try placing it somewhere else.",
+                          ephemeral: true,
+                        });
+                      } else {
+                        this.addPiece(
+                          reaction,
+                          parseInt(reaction.customId),
+                          interaction
+                        );
+                        this.createNewTurn(interaction, msg);
+                        await reaction.deferUpdate();
+                      }
+                    }
+                  } else if (reaction.customId === "htp") {
+                    this.gameHowToPlay(reaction);
+                  } else if (reaction.customId === "exit") {
+                    clearTimeout(this.gameTimeout);
+                    this.gameForceQuit(reaction.user.id, reaction, interaction);
                   }
-                }
-              } else if (reaction.customId === "htp") {
-                this.gameHowToPlay(reaction);
-              } else if (reaction.customId === "exit") {
-                clearTimeout(this.gameTimeout);
-                this.gameForceQuit(reaction.user.id, reaction, interaction);
-              }
-            });
-          })
-          .catch(async (e) => {
-            console.log("RANDOM DISCORD API ERROR (NON FATAL)" + e);
-            await interaction.editReply(
-              "Kumo couldn't start the game this time. Please try again."
-            );
-            return;
-          });
+                });
+              })
+              .catch(async (e) => {
+                console.log("RANDOM DISCORD API ERROR (NON FATAL)" + e);
+                await interaction.editReply(
+                  "Kumo couldn't start the game this time. Please try again."
+                );
+                return;
+              });
+          }, 10000)
+        );
       }, 2000)
     );
   }
