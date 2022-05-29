@@ -41,7 +41,11 @@ module.exports = {
     );
     embed.addField(
       `**/kumomatch \`<Opponent>\` \`<PlayerColour>\` \`<OpponentColour>\`:**`,
-      "Play a game of Kumo Match! Get 5 chips in a row to win. Further instructions can be found upon usage!"
+      "Play a game of Kumo Match! Get 5 chips in a row to win. Further instructions and a demonstration can be found upon usage!"
+    );
+    embed.addField(
+      `**/kumoline \`<Opponent>\` \`<PlayerColour>\` \`<OpponentColour>\`:**`,
+      "Play a game of Kumo Line! Match 3 hearts in any direction to win. Further instructions and a demonstration can be found upon usage!"
     );
     embed.addField(
       `**Invite Link**`,
