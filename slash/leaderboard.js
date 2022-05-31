@@ -37,8 +37,12 @@ module.exports = {
     let content = "";
     let voiceContent = "";
 
+    //Array storing the different medals available to a user.
+    const medals = ["🥇", "🥈", "🥉", "🎖️", "🎖️"];
+
     //Loop for the top five TEXT users.
 
+    //Separate for loop needed to go through EVERY entry to find the position of the interacting user, who may not be in top 10.
     for (let i = 0; i < messageOrdered.length; i++) {
       if (messageOrdered[i].UserID == interaction.user.id) {
         indivPosition = i + 1;
@@ -46,24 +50,13 @@ module.exports = {
       }
     }
 
-    //Text
-    for (let i = 0; i < messageOrdered.length; i++) {
-      if (i === 5) {
-        break;
-      }
-
+    //Text positions top 5
+    for (let i = 0; i < 5; i++) {
       const userID = await client.users.fetch(messageOrdered[i].UserID);
       let user = userID.username;
-
-      if (i === 0) {
-        content += `🥇 ${i + 1}: ${user} - ${messageOrdered[i].messages}\n`;
-      } else if (i === 1) {
-        content += `🥈 ${i + 1}: ${user} - ${messageOrdered[i].messages}\n`;
-      } else if (i === 2) {
-        content += `🥉 ${i + 1}: ${user} - ${messageOrdered[i].messages}\n`;
-      } else {
-        content += `🎖️ ${i + 1}: ${user} - ${messageOrdered[i].messages}\n`;
-      }
+      content += `${medals[i]} ${i + 1}: ${user} - ${
+        messageOrdered[i].messages
+      }\n`;
     }
 
     //Gets all the entries in the database but this time sort based on voice rather than text messages.
@@ -71,6 +64,7 @@ module.exports = {
 
     //Loops for the top 5 VOICE users.
 
+    //Separate for loop needed to go through EVERY entry to find the position of the interacting user, who may not be in top 10.
     for (let i = 0; i < voiceOrdered.length; i++) {
       if (voiceOrdered[i].UserID == interaction.user.id) {
         indivVoicePosition = i + 1;
@@ -79,31 +73,13 @@ module.exports = {
     }
 
     //Voice
-    for (let i = 0; i < voiceOrdered.length; i++) {
-      if (i === 5) {
-        break;
-      }
-
+    for (let i = 0; i < 5; i++) {
       const userID = await client.users.fetch(voiceOrdered[i].UserID);
       let user = userID.username;
 
-      if (i === 0) {
-        voiceContent += `🥇 ${i + 1}: ${user} - ${
-          voiceOrdered[i].voiceMessages
-        }\n`;
-      } else if (i === 1) {
-        voiceContent += `🥈 ${i + 1}: ${user} - ${
-          voiceOrdered[i].voiceMessages
-        }\n`;
-      } else if (i === 2) {
-        voiceContent += `🥉 ${i + 1}: ${user} - ${
-          voiceOrdered[i].voiceMessages
-        }\n`;
-      } else {
-        voiceContent += `🎖️ ${i + 1}: ${user} - ${
-          voiceOrdered[i].voiceMessages
-        }\n`;
-      }
+      voiceContent += `${medals[i]} ${i + 1}: ${user} - ${
+        voiceOrdered[i].voiceMessages
+      }\n`;
     }
 
     /**
@@ -113,9 +89,7 @@ module.exports = {
     embed
       .setColor("#dda15c")
       .setThumbnail("attachment://main_logo.png")
-      .setTitle(
-        "Kumo Top 5 Global Leaderboard (Last 30 days) [RESET ON BOT VERIFICATION]"
-      )
+      .setTitle("Kumo Top 5 Global Leaderboard (Last 30 days)")
       .addField("Global Positions (Text):", content)
       .addField(
         "Your Message Amount:",
