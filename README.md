@@ -21,7 +21,7 @@
 
 The bot was made in _Visual Studio Code_ so any instructions discussed from here are under the assumption you are using this IDE too!
 
-- **Fork the repository.**
+- [**Fork the repository.**](https://github.com/JSusak/Kumo-PublicRepo/fork)
 - Alternatively, you can clone the repository by running `git clone https://github.com/JSusak/kumo-the-dog-Public.git` but no changes will be made due to the lack of write access.
 - Once the code appears in your IDE, run `npm i` or `npm install` in order to install all packages required for the bot to work.
 - At this point, the bot should be able to load up by typing `node index.js` but will ultimately cease to work because no .env file has been defined. Instruction for this are found below.
