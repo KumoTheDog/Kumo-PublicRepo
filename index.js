@@ -9,10 +9,13 @@ const mongoose = require("mongoose");
 const ms = require("pretty-ms");
 const Messages = require("./models/benSchema2");
 
+const modal = require("./events/ModalSubmit.js");
+
 env.config();
 const TOKEN = process.env.BOTTOKEN;
 const TEST_GUILD_ID = process.env["TEST_GUILD_ID"];
 const dbToken = process.env.DBTOKEN;
+const feedbackChannel = process.env.FEEDBACKCHANNEL;
 
 /**
  * Attempt to connect to the mongoDB defined in the .env file. If no token supplied the bot will not connect to a database.
@@ -116,6 +119,10 @@ client.on("interactionCreate", async (interaction) => {
     client.timeouts.get(`${interaction.user.id}_${interaction.commandName}`) ||
     0;
   console.log(interaction.user.id);
+
+  //Check for modal submission
+  modal.CheckAndGenerateFeedbackModal(client, interaction, feedbackChannel);
+
   async function handleCommand() {
     if (!interaction.isCommand()) return;
 
@@ -134,7 +141,9 @@ client.on("interactionCreate", async (interaction) => {
         `${interaction.user.id}_${interaction.commandName}`,
         Date.now() + (scmd.timeout || 0)
       );
-      await interaction.deferReply();
+      if (interaction.commandName !== "feedback") {
+        await interaction.deferReply();
+      }
       await scmd.run({ client, interaction });
     }
   }
