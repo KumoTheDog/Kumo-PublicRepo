@@ -146,4 +146,5 @@ The bot is live on [discordbotlist.com](https://discordbotlist.com/bots/kumo-the
 
 I would be extremely grateful for any upvotes :))))
 
-Thanks for using Kumo and checking out my repo. I hope you enjoy playing around with the bot :)  ~ Saracen (Josh)
+Thanks for using Kumo and checking out my repo. I hope you enjoy playing around with the bot :)  
+~ Saracen (Josh)
