@@ -103,12 +103,29 @@ client.on("ready", async () => {
   })();
 
   /**
-   * Sets the activity of the bot to include the total number of users in all guilds, calculated on bot login.
+   * Dynamically changes the bot activity every minute and 10 seconds.
    */
-  client.user.setPresence({
-    activities: [{ name: `questions! | /help`, type: "LISTENING" }],
-    status: "idle",
-  });
+  let newAct = 0;
+  const activityArray = [
+    { type: "LISTENING", message: `questions! | /help` },
+    { type: "PLAYING", message: `with ${totalMembers} users! | /help` },
+    {
+      type: "PLAYING",
+      message: `${fs.readdirSync("./slash").length} commands! | /help`,
+    },
+  ];
+  setInterval(() => {
+    newAct = (newAct + 1) % activityArray.length;
+    client.user.setPresence({
+      activities: [
+        {
+          name: activityArray[newAct].message,
+          type: activityArray[newAct].type,
+        },
+      ],
+      status: "idle",
+    });
+  }, 70000);
 
   console.log(`${client.user.tag}: Kumo has now logged in.`);
   await new Promise((res) => setTimeout(() => res(2), 500));
