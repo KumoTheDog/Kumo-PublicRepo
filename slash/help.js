@@ -52,6 +52,10 @@ module.exports = {
       "[Click here](https://discord.com/oauth2/authorize?client_id=960100480225267733&permissions=2184219648&scope=bot%20applications.commands) to invite Kumo to your server!"
     );
     embed.addField(
+      `**/feedback:**`,
+      "Send direct feedback to the developer of Kumo, through the use of Modals."
+    );
+    embed.addField(
       "**Support Server**",
       "[Click here](https://discord.gg/vKPnktZan9) to join my support server!"
     );
