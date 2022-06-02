@@ -48,12 +48,12 @@ module.exports = {
       "Play a game of Kumo Line! Match 3 hearts in any direction to win. Further instructions and a demonstration can be found upon usage!"
     );
     embed.addField(
-      `**Invite Link**`,
-      "[Click here](https://discord.com/oauth2/authorize?client_id=960100480225267733&permissions=2184219648&scope=bot%20applications.commands) to invite Kumo to your server!"
-    );
-    embed.addField(
       `**/feedback:**`,
       "Send direct feedback to the developer of Kumo, through the use of Modals."
+    );
+    embed.addField(
+      `**Invite Link**`,
+      "[Click here](https://discord.com/oauth2/authorize?client_id=960100480225267733&permissions=2184219648&scope=bot%20applications.commands) to invite Kumo to your server!"
     );
     embed.addField(
       "**Support Server**",
