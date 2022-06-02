@@ -15,6 +15,7 @@
 - An up-to-date version of [**Discord.js**](https://discord.js.org/#/) `v13.6.0` UPDATE: Any further versions of the bot require the use of a version >= `v13.7.0` due to the introduction of [Modals](https://discordjs.guide/interactions/modals.html#building-and-responding-with-modals) since May 2022.
 - An up-to-date version of [**Node.js**](https://nodejs.org/en/) >= `v16.14.2`
 - Basic knowledge of [**JavaScript**](https://www.javascript.com/)
+- A Discord server to test your instance on.
 - _OPTIONAL_: A [MongoDB](https://www.mongodb.com/) account, _32 byte encryption key_ and _64 byte signing key_.
 
 ## Setting up the project
@@ -36,6 +37,7 @@ TEST_GUILD_ID=`ID of test server here, OPTIONAL`\
 DBTOKEN=`Link to access MongoDB cluster here, OPTIONAL`\
 ASTRING=`32 byte, base64 string here, REQUIRED IF DBTOKEN IS USED`\
 BSTRING=`64 byte, base64 string here, REQUIRED IF DBTOKEN IS USED`
+FEEDBACKCHANNEL=`ID of the text channel that you would like feedback to be sent to, OPTIONAL`\
 
 If you want to be completely sure that this file won't get tracked upon further changes you can perform the following:
 
