@@ -48,6 +48,10 @@ module.exports = {
       "Play a game of Kumo Line! Match 3 hearts in any direction to win. Further instructions and a demonstration can be found upon usage!"
     );
     embed.addField(
+      `**/kumoratio \`<User>\`:**`,
+      "Begin a ratio chain! Can be directed towards a specific user, yourself or indirectly within a channel."
+    );
+    embed.addField(
       `**/feedback:**`,
       "Send direct feedback to the developer of Kumo, through the use of Modals."
     );
