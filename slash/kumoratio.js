@@ -102,7 +102,7 @@ module.exports = {
           if (size == 0) {
             finishedEmbed.addField(
               "Count:",
-              "0 users have assisted. Looks like it was a failed attempt..."
+              "`0` users have assisted. Looks like it was a failed attempt..."
             );
           } else {
             let finishingMessage = "";
