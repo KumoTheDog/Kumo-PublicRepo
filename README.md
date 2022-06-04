@@ -119,6 +119,8 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
 - **/kumoline `opponent` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid.
 
+- **/kumoratio `user`**: Begin a ratio, either directed at a specific user, yourself, the bot or indirectly within a text channel. The ratio begins with a 30 second timer and stops recording contributors after this timer runs out. BUT, every new contributor extends the timer by another 30 seconds! Different responses depending on the success rate of the overall ratio.
+
 - **/feedback**: Provide some helpful feedback to me! Opens a modal in which you must answer what you have enjoyed upon using the bot, any future implementation you would like to see as well as any bugs you have found during runtime. There must be some response - even putting 'none' would suffice!
 
 This part will get updated as new commands roll out. I am happy to explain any commands in a further level of detail if you join my support server down below ;)
