@@ -116,6 +116,10 @@ module.exports = {
               "Count:",
               `\`${size}\` ${plural} assisted in the ratio! ${finishingMessage}`
             );
+            finishedEmbed.setFooter({
+              text: "[CLOSED]",
+              iconURL: interaction.member.displayAvatarURL(),
+            });
           }
 
           await msg.edit({ embeds: [finishedEmbed], components: [] });
@@ -136,6 +140,10 @@ module.exports = {
             `\`${size}\` users have assisted in the ratio! I can't allow more responses. ` +
               "( ´ ▽ ` )b"
           );
+          maxEmbed.setFooter({
+            text: "[MAX RESPONSES]",
+            iconURL: interaction.member.displayAvatarURL(),
+          });
           await msg.edit({ embeds: [maxEmbed], components: [] });
         }
 
