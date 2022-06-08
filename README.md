@@ -119,7 +119,7 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
 - **/kumoline `opponent` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid.
 
-- **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Work in progress, intended to be a turn based fighting game, with player inventories and log files...Next command, I aim to finish it very soon. 07/06/22: Finished confirmation menu, battle logic, fleeing logic, item menu and history file. Still have to work on applying perks to the duel whenever an item is used. Should be done by the end of this week!
+- **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Work in progress, intended to be a turn based fighting game, with player inventories and log files...Next command, I aim to finish it very soon. 07/06/22: Finished confirmation menu, battle logic, fleeing logic, item menu and history file. Still have to work on applying perks to the duel whenever an item is used. Should be done by the end of this week! Added one working item, hacker's laptop, so far.
 
 - **/kumoratio `user`**: Begin a ratio, either directed at a specific user, yourself, the bot or indirectly within a text channel. The ratio begins with a 30 second timer and stops recording contributors after this timer runs out. BUT, every new contributor extends the timer by another 30 seconds! Different responses depending on the success rate of the overall ratio.
 
