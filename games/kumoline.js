@@ -1,5 +1,6 @@
 //Only imports needed for the game are native to discord.js!
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const ms = require("pretty-ms");
 
 //Width of game board
 const GAMEWIDTH = 3;
@@ -208,7 +209,9 @@ class KumoLine {
       cooldownEnd.fields = [];
       cooldownEnd.addField(
         "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-        "No one has played a turn in the last 2 minutes. The game has been stopped. ((´д｀))"
+        `No one has played a turn in the last \`${ms(120000, {
+          compact: true,
+        })}\` - Game has been stopped. ((´д｀))`
       );
       await msg.edit({ embeds: [cooldownEnd], components: [] });
     }, 120000);
@@ -384,9 +387,7 @@ class KumoLine {
     const introEmbed = new MessageEmbed()
       .setTitle("Setting up game...")
       .setDescription(
-        "By random selection, the first move belongs to " +
-          newUser +
-          ". Please wait for the game to be initialised..."
+        `By random selection, the first move belongs to **${newUser}**. Please wait for the game to be initialised...`
       )
       .setColor("RED");
 
@@ -397,7 +398,12 @@ class KumoLine {
           .setColor("#dda15c")
           .addField(
             "Game Description",
-            "Match **3** hearts in a **line** to win. The numbers pointing down to each heart correspond to the **position** in which you can place it. The game will start in 10 seconds!"
+            `Match \`3\` hearts in a **line** to win. The numbers pointing down to each heart correspond to the **position** in which you can place it. The game will start in \`${ms(
+              10000,
+              {
+                compact: true,
+              }
+            )}\`!`
           )
           .setDescription(this.gameRepresentationToString())
           .setTimestamp()
@@ -516,8 +522,12 @@ class KumoLine {
                     cooldownEnd.fields = [];
                     cooldownEnd.addField(
                       "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-                      "The game has begun, but no one played a turn for 30 seconds, so the game has been stopped. ((´д｀))"
+                      `The game has begun, but no one played a turn for \`${ms(
+                        30000,
+                        { compact: true }
+                      )}\`- Game has been stopped. ((´д｀))`
                     );
+
                     await msg.edit({ embeds: [cooldownEnd], components: [] });
                   }, 30000);
 
@@ -566,7 +576,7 @@ class KumoLine {
                         ) {
                           await reaction.reply({
                             content:
-                              "This position seems to be full. try placing it somewhere else.",
+                              "This position seems to be full. Try placing it somewhere else.",
                             ephemeral: true,
                           });
                         } else {
