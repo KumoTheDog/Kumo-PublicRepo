@@ -525,7 +525,7 @@ class KumoLine {
                       `The game has begun, but no one played a turn for \`${ms(
                         30000,
                         { compact: true }
-                      )}\`- Game has been stopped. ((´д｀))`
+                      )}\` - Game has been stopped. ((´д｀))`
                     );
 
                     await msg.edit({ embeds: [cooldownEnd], components: [] });
