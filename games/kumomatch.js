@@ -1,5 +1,7 @@
 //Only imports needed for the game are native to discord.js!
 const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+//Pretty ms used for improved number formatting in the embeds.
+const ms = require("pretty-ms");
 
 //Width of game board
 const GAMEWIDTH = 9;
@@ -154,7 +156,7 @@ class KumoMatch {
   async gameHowToPlay(reaction) {
     await reaction.reply({
       content:
-        "Kumo Match works by matching 5 of your chips in a row, in any orientation across the board. You can win the game by having a line of 5 chips **vertically, horizontally or diagonally** :) ",
+        "Kumo Match works by matching `5` of your chips in a row, in any orientation across the board. You can win the game by having a line of `5` chips **vertically, horizontally or diagonally** :) ",
       ephemeral: true,
     });
   }
@@ -214,7 +216,9 @@ class KumoMatch {
       cooldownEnd.fields = [];
       cooldownEnd.addField(
         "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-        "No one has played a turn in the last 2 minutes. The game has been stopped. ((´д｀))"
+        `No one has played a turn in the last \`${ms(120000, {
+          compact: true,
+        })}\` - Game has been stopped. ((´д｀))`
       );
       await msg.edit({ embeds: [cooldownEnd], components: [] });
     }, 120000);
@@ -450,9 +454,7 @@ class KumoMatch {
     const introEmbed = new MessageEmbed()
       .setTitle("Setting up game...")
       .setDescription(
-        "By random selection, the first move belongs to " +
-          newUser +
-          ". Please wait for the game to be initialised..."
+        `By random selection, the first move belongs to **${newUser}**. Please wait for the game to be initialised...`
       )
       .setColor("RED");
 
@@ -465,7 +467,12 @@ class KumoMatch {
           .setDescription(this.gameRepresentationToString())
           .addField(
             "Game Description",
-            "Match 5 of your chips in a row, in any orientation across the board. You can win the game by having a line of 5 chips **vertically, horizontally or diagonally**. The game will start shortly!"
+            `Match \`5\` of your chips in a row, in any orientation across the board. You win the game by having a line of \`5\` chips **vertically, horizontally or diagonally**. The game will start in \`${ms(
+              10000,
+              {
+                compact: true,
+              }
+            )}\`!`
           )
           .setTimestamp()
           .setFooter({
@@ -560,7 +567,10 @@ class KumoMatch {
                   cooldownEnd.fields = [];
                   cooldownEnd.addField(
                     "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-                    "The game has begun, but no one played a turn for 30 seconds, so the game has been stopped. ((´д｀))"
+                    `The game has begun, but no one played a turn for \`${ms(
+                      30000,
+                      { compact: true }
+                    )}\` - Game has been stopped. ((´д｀))`
                   );
                   await msg.edit({ embeds: [cooldownEnd], components: [] });
                 }, 30000);
@@ -627,7 +637,7 @@ class KumoMatch {
               .catch(async (e) => {
                 console.log("RANDOM DISCORD API ERROR (NON FATAL)" + e);
                 await interaction.editReply(
-                  "Kumo couldn't start a game this time. Please try again."
+                  "Kumo couldn't start the game this time. Please try again."
                 );
                 return;
               });
