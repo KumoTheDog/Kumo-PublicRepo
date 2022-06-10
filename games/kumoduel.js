@@ -256,7 +256,7 @@ class KumoDuel {
     if (this.checkWinningCondition(this.hpAmountP1, this.hpAmountP2) === true) {
       clearTimeout(this.gameTimeout);
       const winnerEmbed = new MessageEmbed(editEmbed);
-      winnerEmbed.title = winnerEmbed.title + " [FINISHED]";
+      winnerEmbed.setTitle("Kumo Duel [FINISHED]");
       winnerEmbed.fields = [];
       //The last player has to be the one who wins if they hit the other user to 0hp.
       winnerEmbed.addField(
@@ -789,7 +789,7 @@ class KumoDuel {
                 //If a move occurs then the timeout of 2 minutes for each move begins.
                 this.gameTimeout = setTimeout(async () => {
                   const cooldownEnd = new MessageEmbed(mainGameEmbed);
-                  cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+                  cooldownEnd.setTitle("Kumo Duel [TIMED OUT]");
                   cooldownEnd.fields = [];
                   cooldownEnd.addField(
                     "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
