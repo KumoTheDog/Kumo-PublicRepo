@@ -174,7 +174,7 @@ class KumoLine {
   async gameHowToPlay(reaction) {
     await reaction.reply({
       content:
-        "To win Kumo Line, you must outwit your opponent by placing 3 hearts in a line. The order of hearts can go in any direction, including diagonal but it MUST be a line of 3 :) ",
+        "To win Kumo Line, you must outwit your opponent by placing `3` hearts in a line. The order of hearts can go in any direction, including diagonal but it MUST be a line of `3` :) ",
       ephemeral: true,
     });
   }
