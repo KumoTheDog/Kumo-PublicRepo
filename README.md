@@ -3,7 +3,7 @@
      kumo-PublicRepo ૮ ˶´ ᵕˋ ˶ა
      </h1>
 <p align="center" width="100%">
-<img src="https://github.com/JSusak/kumo-PublicRepo/blob/main/resources/main_logo.png" width="30%">
+<img src="https://github.com/JSusak/kumo-PublicRepo/blob/main/resources/main_logo.png" width="20%">
      </p>
 
 **Public repository for the latest version of 'Kumo The Dog' Discord bot!** A simple chatbot made for fun which somehow grew enough to get a verified tick. Kumo features:
