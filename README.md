@@ -119,14 +119,23 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
 - **/kumoline `opponent` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid.
 
-- **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Base game + items finished on 10/06/22. Intended to be a turn based fighting game, with player inventories and transcripts.  
-   - **Items**:  
-     - items go here
-   - **Log Files**:  
-     - explanation of logs here
-   - **Duel Timeout**:
-     - Duel timeout explanation here 
+- **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Base game + items finished on 10/06/22. Intended to be a turn based fighting game, with player inventories and transcripts.
 
+  - **Items**:
+    - **Red Apple**: Restores a constant **60** HP and consumes your turn, passing it to the opponent.
+    - **Brown Broom**: Increases your attack by **30%**! However, the damage inflicted when fighting is determined by RNG, so you still may get bad damage :)
+    - **Shadow Cloak**: Attack normally, putting on the cloak after - this increases your evasion for **1** turn, meaning that the opponent has a **70%** chance of missing their next attack.
+    - **Blackcurrant Jam**: Adds to your current HP a value determined by - your current HP + **10-60%** of said current HP
+    - **Hacker's Laptop**: Upon use, you have a **10%** chance of ending the duel completely, winning by default. But if you miss, you do no damage to the opponent and open yourself to a free hit.
+    - **Coin-Filled Wallet**: Increases your base attack by however many coins are found in your current wallet - 1 for each coin.
+
+  Keep in mind that for attack-based items, you can still miss the attack completely and your item WILL get consumed with no effect. The only exception to this would be the **Shadow Cloak**, where if you miss, you still put the cloak on to recieve higher evasion.  
+  Health-based items are guaranteed to restore, no matter what.
+
+  - **Log Files**:
+    - explanation of logs here
+  - **Duel Timeout**:
+    - Duel timeout explanation here
 
 - **/kumoratio `user`**: Begin a ratio, either directed at a specific user, yourself, the bot or indirectly within a text channel. The ratio begins with a 30 second timer and stops recording contributors after this timer runs out. BUT, every new contributor extends the timer by another 30 seconds! Different responses depending on the success rate of the overall ratio.
 
