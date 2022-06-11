@@ -37,7 +37,7 @@ CLIENTID=`Client ID here`\
 TEST_GUILD_ID=`ID of test server here, OPTIONAL`\
 DBTOKEN=`Link to access MongoDB cluster here, OPTIONAL`\
 ASTRING=`32 byte, base64 string here, REQUIRED IF DBTOKEN IS USED`\
-BSTRING=`64 byte, base64 string here, REQUIRED IF DBTOKEN IS USED`
+BSTRING=`64 byte, base64 string here, REQUIRED IF DBTOKEN IS USED`\
 FEEDBACKCHANNEL=`ID of the text channel that you would like feedback to be sent to, OPTIONAL`\
 
 If you want to be completely sure that this file won't get tracked upon further changes you can perform the following:
