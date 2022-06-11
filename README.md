@@ -133,9 +133,16 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
   Health-based items are guaranteed to restore, no matter what.
 
   - **Log Files**:
-    - explanation of logs here
+    - As the duel progress, each turn is saved into a transcript, represented using an array, which can then be viewed at the end of the duel inside an ephemeral embed if anyone wants to. The embed displays information such as the items initially held by both users, the amount of turns each user managed to complete and the transcript itself. One limitation I found was that the maximum character length for fields was **1024** and for a longer game, this length can easily be filled up as the amount of turns increases (each turn produces about **100** characters). To fix this, I made a for loop going through the transcript which adds the amount of characters found at each index in this transcript, as well as adding the string representation of the turns to a temporary array. If adding the next element to this character counter exceeds 1024, create a field with the contents of said array, empty it and reset the character counter. However, if the whole array has been traversed and the counter is less than 1024, simply make a single field.
   - **Duel Timeout**:
-    - Duel timeout explanation here
+
+    - For this duel, there are some conditions which warrant a timeout to occur - if this happens, the duel is treated as **abandoned** with no clear winner. Timeouts happen when:
+
+      - The opponent doesn't respond to the initial confirmation.
+      - The first player doesn't make a move within 30 seconds.
+      - After the first move, no players move within 2 minutes.
+
+    - If a timeout happens, a log file is **NOT** sent.
 
 - **/kumoratio `user`**: Begin a ratio, either directed at a specific user, yourself, the bot or indirectly within a text channel. The ratio begins with a 30 second timer and stops recording contributors after this timer runs out. BUT, every new contributor extends the timer by another 30 seconds! Different responses depending on the success rate of the overall ratio.
 
