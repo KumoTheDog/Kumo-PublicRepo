@@ -2,9 +2,6 @@
 <h1 align="center">
      kumo-PublicRepo ૮ ˶´ ᵕˋ ˶ა
      </h1>
-<p align="center" width="100%">
-<img src="https://github.com/JSusak/kumo-PublicRepo/blob/main/resources/main_logo.png" width="20%">
-     </p>
 
 **Public repository for the latest version of 'Kumo The Dog' Discord bot!** A simple chatbot made for fun which somehow grew enough to get a verified tick. Kumo features:
 
@@ -186,3 +183,6 @@ I would be extremely grateful for any upvotes :))))
 
 Thanks for using Kumo and checking out my repo. I hope you enjoy playing around with the bot :)  
 ~ Saracen (Josh)
+<p align="center" width="100%">
+<img src="https://github.com/JSusak/kumo-PublicRepo/blob/main/resources/main_logo.png" width="20%">
+     </p>
