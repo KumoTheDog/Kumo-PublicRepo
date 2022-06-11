@@ -92,6 +92,8 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
 ## Brief Command Explanations
 
+- **/help**: Opens a direct message channel, sending all the commands mentioned below alongside an **invite link**, link to the **support server** and a **top.gg** page link, which can also be found at the bottom of this README!
+
 - **/askkumo** `questions`: Talk to Kumo within a text channel.
 
   A question must be inputted by the user to which Kumo replies in the current text channel.
