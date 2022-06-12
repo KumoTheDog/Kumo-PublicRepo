@@ -11,7 +11,7 @@
 - Real-Time responsiveness, minimal latency
 - Global Leaderboards _(Encrypted at rest)_
 - Games
-- More found below...
+- _More found below..._
 
 ## Requirements for creating a local instance
 
