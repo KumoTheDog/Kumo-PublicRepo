@@ -1,9 +1,10 @@
-
 <h1 align="center">
      kumo-PublicRepo ૮ ˶´ ᵕˋ ˶ა
      </h1>
 
-**Public repository for the latest version of 'Kumo The Dog' Discord bot!** A simple chatbot made for fun which somehow grew enough to get a verified tick. Kumo features:
+**Public repository for the latest version of 'Kumo The Dog' Discord bot!** A simple chatbot made for fun which somehow grew enough to get a verified tick.
+
+## Bot Features
 
 - The ability to talk in **VOICE** or **TEXT CHANNELS**.
 - Slash commands, message content is not stored to respect user privacy :)
@@ -136,9 +137,9 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
   Health-based items are guaranteed to restore, no matter what.
 
   - **Log Files**:
-     - As the duel progress, each turn is saved into a **transcript**, represented using an array, which can then be viewed at the end of the duel inside an ephemeral embed if anyone wants to.  
-     - The embed displays information such as the items initially held by both users, the amount of turns each user managed to complete and the transcript itself. One limitation I found was that the maximum character length for fields was **1024** and for a longer game, this length can easily be filled up as the amount of turns increases (each turn produces about **100** characters).  
-     - To fix this, I made a for loop going through the transcript which adds the amount of characters found at each index in this transcript, as well as adding the string representation of the turns to a temporary array. If adding the next element to this character counter exceeds 1024, create a field with the contents of said array, empty it and reset the character counter. However, if the whole array has been traversed and the counter is less than 1024, simply make a single field.
+    - As the duel progress, each turn is saved into a **transcript**, represented using an array, which can then be viewed at the end of the duel inside an ephemeral embed if anyone wants to.
+    - The embed displays information such as the items initially held by both users, the amount of turns each user managed to complete and the transcript itself. One limitation I found was that the maximum character length for fields was **1024** and for a longer game, this length can easily be filled up as the amount of turns increases (each turn produces about **100** characters).
+    - To fix this, I made a for loop going through the transcript which adds the amount of characters found at each index in this transcript, as well as adding the string representation of the turns to a temporary array. If adding the next element to this character counter exceeds 1024, create a field with the contents of said array, empty it and reset the character counter. However, if the whole array has been traversed and the counter is less than 1024, simply make a single field.
   - **Duel Timeout**:
 
     - For this duel, there are some conditions which warrant a timeout to occur - if this happens, the duel is treated as **abandoned** with no clear winner. Timeouts happen when:
@@ -183,6 +184,7 @@ I would be extremely grateful for any upvotes :))))
 
 Thanks for using Kumo and checking out my repo. I hope you enjoy playing around with the bot :)  
 ~ Saracen (Josh)
+
 <p align="center" width="100%">
 <img src="https://github.com/JSusak/kumo-PublicRepo/blob/main/resources/main_logo.png" width="20%">
      </p>
