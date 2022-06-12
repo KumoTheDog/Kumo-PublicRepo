@@ -10,7 +10,8 @@
 - Slash commands, message content is not stored to respect user privacy :)
 - Real-Time responsiveness, minimal latency
 - Global Leaderboards _(Encrypted at rest)_
-- Games!
+- Games
+- More found below...
 
 ## Requirements for creating a local instance
 
