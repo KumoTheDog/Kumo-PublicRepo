@@ -9,7 +9,7 @@
 - The ability to talk in **VOICE** or **TEXT CHANNELS**.
 - Slash commands, message content is not stored to respect user privacy :)
 - Real-Time responsiveness, minimal latency
-- Global Leaderboards
+- Global Leaderboards _(Encrypted at rest)_
 - Games!
 
 ## Requirements for creating a local instance
