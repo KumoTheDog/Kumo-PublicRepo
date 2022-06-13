@@ -1,0 +1,1 @@
+Any 'static' resources, like images and sound files go in here!
