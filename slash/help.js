@@ -20,32 +20,36 @@ module.exports = {
     embed.setTitle("***Hi hi! ૮ ˶ᵔ ᵕ ᵔ˶ ა***");
     embed.addField(
       `**/askkumo \`<Questions>\`:**`,
-      "Ask Kumo a question in the current text channel. Everyone has a cooldown of **ten seconds**."
+      "Ask Kumo a question in the current text channel. Everyone has a cooldown of `10s`."
     );
     embed.addField(
       `**/callkumo:**`,
-      "Summon Kumo to your current VC to speak with him directly. There is a cooldown of **eight seconds/question**, be sure to ask Kumo your questions carefully!"
+      "Summon Kumo to your current VC to speak in real-time directly. There is a cooldown of `8s`**/question**, be sure to ask Kumo your questions carefully!"
     );
     embed.addField(`**/kickkumo:**`, "Kick Kumo from the VC.");
     embed.addField(
       `**/kumopoll \`<Question>\` \`<Response 1>\` \`<Response 2>\` \`<Total Responses>\`:**`,
-      "Create a poll, comprising of two selections! Users can then answer in the poll, until it closes."
+      "Create a poll, comprising of `2` selections! Users can then answer in the poll, until it closes."
     );
     embed.addField(
       `**/leaderboard:**`,
-      "Check the current global standings of who has talked to Kumo the most. Displays text and voice leaderboards as well as your current position in both."
+      "Check the current global standings of who has talked to Kumo the most. Displays *text* and *voice* leaderboards as well as your current position in both."
     );
     embed.addField(
       `**/kumoinfo:**`,
-      "Find out some miscellaneous statistics about Kumo! Total servers, users, latency, uptime and more!"
+      "Find out some miscellaneous statistics about Kumo! Total servers, users, latency, current uptime and more!"
     );
     embed.addField(
       `**/kumomatch \`<Opponent>\` \`<PlayerColour>\` \`<OpponentColour>\`:**`,
-      "Play a game of Kumo Match! Get 5 chips in a row to win. Further instructions and a demonstration can be found upon usage!"
+      "Play a game of Kumo Match! Get `5` chips in any orientation to win. When a chip is inserted in a chosen column, it travels to the bottom row - any newly placed chips go on top of the last until that column is completely full! A demonstration can be found upon usage."
     );
     embed.addField(
       `**/kumoline \`<Opponent>\` \`<PlayerColour>\` \`<OpponentColour>\`:**`,
-      "Play a game of Kumo Line! Match 3 hearts in any direction to win. Further instructions and a demonstration can be found upon usage!"
+      "Play a game of **Kumo Line**! Match `3` hearts in any orientation to win. You can place hearts in any position on the board and a demonstration can be found upon usage!"
+    );
+    embed.addField(
+      `**/kumoduel \`<Opponent>\` \`<BaseHP>\`:**`,
+      "Challenge a user to **Kumo Duel**! Turn-based fighting game with *randomised inventories*, *custom generated responses* and *duel transcripts*!"
     );
     embed.addField(
       `**/kumoratio \`<User>\`:**`,
