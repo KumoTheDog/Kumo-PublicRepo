@@ -69,10 +69,16 @@ module.exports = {
           inline: false,
         },
         {
-          name: "TOS + Privacy Policy",
+          name: "TOS + Privacy Policy:",
           value:
             "[**Terms Of Service**](https://github.com/JSusak/kumo-the-dog-documentation/blob/main/TermsOfServices.md) and [**Privacy Policy**](https://github.com/JSusak/kumo-the-dog-documentation/blob/main/PrivacyPolicy.md) are both found on my [**GitHub**](https://github.com/JSusak) page.",
-          inline: true,
+          inline: false,
+        },
+        {
+          name: "Key Packages (NPM):",
+          value:
+            "[**Mongoose**](https://www.npmjs.com/package/mongoose), [**Discord Player**](https://www.npmjs.com/package/discord-player), [**Discord.JS**](https://www.npmjs.com/package/discord.js)",
+          inline: false,
         }
       );
 
