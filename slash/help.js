@@ -78,7 +78,7 @@ module.exports = {
     });
     embed.setThumbnail("attachment://main_logo.png");
 
-    interaction.editReply("Help sent to your DM's... ヽ(⌐■_■)ノ♪♬");
+    interaction.editReply("Help sent to your ***DM's***... ヽ(⌐■_■)ノ♪♬");
     await interaction.user
       .send({
         embeds: [embed],
