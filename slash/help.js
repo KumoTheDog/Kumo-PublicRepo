@@ -61,19 +61,19 @@ module.exports = {
     );
     embed.addField(
       `**Invite Link**`,
-      "[Click here](https://discord.com/oauth2/authorize?client_id=960100480225267733&permissions=2184219648&scope=bot%20applications.commands) to invite Kumo to your server!"
+      "[**Click here**](https://discord.com/oauth2/authorize?client_id=960100480225267733&permissions=2184219648&scope=bot%20applications.commands) to invite Kumo to your server!"
     );
     embed.addField(
       "**Support Server**",
-      "[Click here](https://discord.gg/vKPnktZan9) to join my support server!"
+      "[**Click here**](https://discord.gg/vKPnktZan9) to join my support server!"
     );
     embed.addField(
       "**Top.gg**",
-      "[Click here](https://top.gg/bot/960100480225267733) to upvote Kumo on top.gg!"
+      "[**Click here**](https://top.gg/bot/960100480225267733) to upvote Kumo on top.gg!"
     );
     embed.setTimestamp();
     embed.setFooter({
-      text: `Developed by Saracen#6210`,
+      text: `Developed by \`Saracen#6210\``,
       iconURL: interaction.member.displayAvatarURL(),
     });
     embed.setThumbnail("attachment://main_logo.png");
