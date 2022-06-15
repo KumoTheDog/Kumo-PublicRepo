@@ -50,7 +50,7 @@ module.exports = {
     );
     embed.addField(
       `**/kumoduel \`<Opponent>\` \`<BaseHP>\`:**`,
-      "Challenge a user to **Kumo Duel**! Turn-based fighting game with *randomised inventories*, *custom generated responses* and *duel transcripts*!"
+      "Challenge a user to **Kumo Duel**! Turn-based fighting game with ***randomised inventories***, ***custom generated responses*** and ***duel transcripts***!"
     );
     embed.addField(
       `**/kumoratio \`<User>\`:**`,
