@@ -18,6 +18,7 @@ module.exports = {
     embed.setAuthor({ name: "Kumo The Dog" });
     embed.setColor("#dda15c");
     embed.setTitle("***Hi hi! ૮ ˶ᵔ ᵕ ᵔ˶ ა***");
+    embed.setDescription("All functioning commands can be found below!");
     embed.addField(
       `**/askkumo \`<Questions>\`:**`,
       "Ask Kumo a question in the current text channel. Everyone has a cooldown of `10s`."
