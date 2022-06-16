@@ -5,6 +5,7 @@ const { Laptop } = require("./laptop");
 const { Wallet } = require("./wallet");
 const { Cloak } = require("./cloak");
 
+//All items specific to the game itself can be found here. Can be added to if more items are thought of.
 const appleRed = new Apple(
   "Red Apple",
   "A shiny red apple!",
