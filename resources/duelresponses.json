@@ -3,13 +3,15 @@
     "lands a clean blow, inflicting",
     "swiftly attacks, dealing",
     "charges up, hitting for",
-    "lands the connection, resulting in a deduction of"
+    "lands the connection, resulting in a deduction of",
+    "unleashes their inner energy, deducting"
   ],
   "damageResponses": [
     "damage.",
     "points of damage.",
     "attack points.",
-    "combo."
+    "combo.",
+    "life points."
   ],
   "otherPlayerResponses": [
     "left. Don't give up! :)",
@@ -22,6 +24,7 @@
     "missed, dealing `0` damage...\n",
     "forgot how to duel, inflicting `0` damage for this turn.\n",
     "didn't feel like dueling this turn, doing `0` damage.\n",
-    "dueled the air, deducting `0` life points.\n"
+    "dueled the air, deducting `0` life points.\n",
+    "accidentally striked nothing, dealing `0` damage...\n"
   ]
 }
