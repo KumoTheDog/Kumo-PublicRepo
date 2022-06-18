@@ -124,7 +124,7 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
 - **/kumoline `opponent` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid.
 
-- [WIP] **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, dm's are sent to both users asking them to select their choice, which is then collected and placed into a main embed.
+- [WIP] **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, dm's are sent to both users asking them to select their choice, which is then collected and placed into a main embed. 18/06/22: Completed 1 player logic, just two player left.
 
 - **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Base game + items finished on 10/06/22. Intended to be a turn based fighting game, with player inventories and transcripts.
 
