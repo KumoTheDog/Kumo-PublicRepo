@@ -86,8 +86,10 @@ module.exports = {
       const confirmEmbed = new MessageEmbed()
         .setTitle("Opponent Confirmation")
         .setDescription(
-          interaction.options.getUser("opponent").username +
-            ", are you sure you want to begin?"
+          `
+          **${
+            interaction.options.getUser("opponent").username
+          }**, would you to begin a game of **Kumo Line**?`
         )
         .setColor("#dda15c")
         .setTimestamp()
