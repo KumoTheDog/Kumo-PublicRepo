@@ -95,6 +95,8 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
 ## Brief Command Explanations
 
+### General [Base Commands]
+
 - **/help**: Opens a direct message channel, sending all the commands mentioned below alongside an **invite link**, link to the **support server** and a **top.gg** page link, which can also be found at the bottom of this README!
 
 - **/askkumo** `questions`: Talk to Kumo within a text channel.
@@ -114,19 +116,29 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
 - **/kickkumo**: Simply kick Kumo from the VC - plays a hanging up sound and leaves immediately after. Be sure to kick Kumo, otherwise the bot may stay around in your server all day!
 
-- **/kumopoll `question` `response1` `response2` `total_responses`**: Create a simple two way poll, comprising of a custom question, your two responses and the threshold for which the poll closes as users answer.
+### Analytics/Utility
 
 - **/leaderboard**: Create a global leaderboard containing the current standings of who has used Kumo the most! Currently shows the top 5 text and voice users in separate leaderboards, as well as your current position if you are not in the top 5. Fight with others to prove who has the strongest bond with Kumo!
 
 - **/kumoinfo**: Find out some miscellaneous statistics about Kumo! Tells you the versions of the core packages used, runtime since last restart alongside the total number of guilds + users in all these guilds.
 
-- **/kumomatch `opponent` `playercolour` `opponentcolour`**: Start a game of Kumo Match! You have the option to play by yourself but I obviously recommend playing with 2 people. The game works by matching the chips corresponding to your colour. You must match **5** of these chips in a row, either horizontally, vertically or diagonally. I MAY add the ability to give extra leaderboard points to the winner but I'm not sure now.
+- **/feedback**: Provide some helpful feedback to me! Opens a modal in which you must answer what you have enjoyed upon using the bot, any future implementation you would like to see as well as any bugs you have found during runtime. There must be some response, even putting 'none' would suffice!
 
-- **/kumoline `opponent` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid.
+### Miscellaneous
 
-- [WIP] **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, dm's are sent to both users asking them to select their choice, which is then collected and placed into a main embed. 18/06/22: Completed 1 player logic, just two player left.
+- **/kumoratio `user`**: Begin a ratio, either directed at a specific user, yourself, the bot or indirectly within a text channel. The ratio begins with a 30 second timer and stops recording contributors after this timer runs out. BUT, every new contributor extends the timer by another 30 seconds! Different responses depending on the success rate of the overall ratio.
 
-- **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Base game + items finished on 10/06/22. Intended to be a turn based fighting game, with player inventories and transcripts.
+- **/kumopoll `question` `response1` `response2` `total_responses`**: Create a simple two way poll, comprising of a custom question, your two responses and the threshold for which the poll closes as users answer.
+
+### Games
+
+- **/kumomatch `opponent [OPTIONAL]` `playercolour` `opponentcolour`**: Start a game of Kumo Match! You have the option to play by yourself but I obviously recommend playing with 2 people. The game works by matching the chips corresponding to your colour. You must match **5** of these chips in a row, either horizontally, vertically or diagonally. I MAY add the ability to give extra leaderboard points to the winner but I'm not sure now. [Estimated game length: `3` - `5` minutes]
+
+- **/kumoline `opponent [OPTIONAL]` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid. [Estimated game length: `1` - `2` minutes]
+
+- **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, turns are taken where both users are given a chance to respond with buttons, which is then collected and placed into a main embed. 18/06/22: Completed 1 player logic, just two player left. Both mechanics finished on 19/06/22 - Can be played 1 player (against the bot itself) or 2 players (specifying a user).
+
+- **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Base game + items finished on 10/06/22. Intended to be a turn based fighting game, with player inventories and transcripts. [Estimated game length: `1` - `2` minutes, can be longer depending on base HP.]
 
   - **Items**:
     - **Red Apple**: _A shiny red apple!_ - Restores a constant **60** HP and consumes your turn, passing it to the opponent.
@@ -153,10 +165,6 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 
     - If a timeout happens, a log file is **NOT** sent.
     - Timeouts can also be extended to the context of the games mentioned above, in that those also have the timeout mechanic implemented, resulting in no clear winner if a timeout should occur.
-
-- **/kumoratio `user`**: Begin a ratio, either directed at a specific user, yourself, the bot or indirectly within a text channel. The ratio begins with a 30 second timer and stops recording contributors after this timer runs out. BUT, every new contributor extends the timer by another 30 seconds! Different responses depending on the success rate of the overall ratio.
-
-- **/feedback**: Provide some helpful feedback to me! Opens a modal in which you must answer what you have enjoyed upon using the bot, any future implementation you would like to see as well as any bugs you have found during runtime. There must be some response, even putting 'none' would suffice!
 
 This part will get updated as new commands roll out. I am happy to explain any commands in a further level of detail if you join my support server down below ;)
 
