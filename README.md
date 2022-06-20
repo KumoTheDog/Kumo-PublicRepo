@@ -2,7 +2,7 @@
      kumo-PublicRepo ૮ ˶´ ᵕˋ ˶ა
      </h1>
 
-**Public repository for the latest version of 'Kumo The Dog' Discord bot!** A simple chatbot made for fun which somehow grew enough to get a verified tick.
+**Public repository for the latest version of 'Kumo The Dog' Discord bot!** A simple chatbot made for fun which grew enough to get a verified tick.
 
 ## Bot Features
 
