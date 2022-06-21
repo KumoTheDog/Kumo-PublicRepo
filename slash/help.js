@@ -53,7 +53,7 @@ module.exports = {
       "Challenge a user to **Kumo Duel**! Turn-based fighting game with ***randomised inventories***, ***custom generated responses*** and ***duel transcripts***!"
     );
     embed.addField(
-      `**/kumoduel \`<Opponent>\`:**`,
+      `**/kumorps \`<Opponent>\`:**`,
       "Challenge a user to **Kumo RPS**! Users take turn selecting symbols and win depending on the combination that is picked. A demonstration can be found upon selecting the game! Can be played with 1 or 2 player(s)!"
     );
     embed.addField(
