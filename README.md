@@ -138,10 +138,10 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 - **/kumoline `opponent [OPTIONAL]` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid.  
   (**Estimated game length**: `1` - `2` minutes)
 
-- **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, turns are taken where both users are given a chance to respond with buttons, which is then collected and placed into a main embed. 18/06/22: Completed 1 player logic, just two player left. Both mechanics finished on 19/06/22 - Can be played 1 player (against the bot itself) or 2 players (specifying a user).
+- **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, turns are taken where both users are given a chance to respond with buttons, which is then collected and placed into a main embed. 18/06/22: Completed 1 player logic, just two player left. Both mechanics finished on 19/06/22 - Can be played 1 player (against the bot itself) or 2 players (specifying a user).  
+  (**Estimated game length**: `0` - `1` minute)
 
-  - UPDATE 21/06/22: Added database integration. If you play against the bot, your score will increase no matter if you win, lose or draw. But in the situation of playing against a human - If you both draw, no points are awarded but whoever wins gets the points (you have the opportunity to recieve more points than if you played against Kumo.)  
-    (**Estimated game length**: `0` - `1` minute)
+  - UPDATE 21/06/22: Added database integration. If you play against the bot, your score will increase no matter if you win, lose or draw. But in the situation of playing against a human - If you both draw, no points are awarded but whoever wins gets the points (you have the opportunity to recieve more points than if you played against Kumo.)
 
 - **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Base game + items finished on 10/06/22. Intended to be a turn based fighting game, with player inventories and transcripts.  
   (**Estimated game length**: `1` - `2` minutes, can be longer depending on base HP.)
