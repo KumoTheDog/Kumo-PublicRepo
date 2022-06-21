@@ -3,6 +3,8 @@ const ms = require("pretty-ms");
 
 const RESPONSES = ["Scissors ✂", "Paper 📰", "Rock 🗻"];
 
+const database = require("../events/databasehandler");
+
 class KumoRPS {
   constructor(interactingUser, opponentUser = null) {
     this.p1User = interactingUser;
@@ -121,7 +123,34 @@ class KumoRPS {
       `**${winnerResponse}**`,
       true
     );
+
     winnerEmbed.addField(`${loser}'s response:`, `**${loserResponse}**`, true);
+    //Playing against Kumo, no matter what, increases p1s leaderboard amount.
+    if (this.p2ID == null) {
+      let randPoints = Math.floor(Math.random() * 20) + 2;
+      winnerEmbed.addField(
+        `Leaderboard:`,
+        `As **${this.p1User}** has chosen to play against Kumo, their leaderboard position will increase, no matter if you won or lost! **${this.p1User}** gained \`${randPoints}\` points in the *'messages'* category.`
+      );
+      database.incrementDB(this.p1ID, randPoints, 0, Date.now());
+    } else {
+      //When playing with 2 players, the winner will get their leaderboard score updated. They also have the chance to earn more points
+      let randPoints = Math.floor(Math.random() * 40) + 2;
+      let userIncremented = null;
+      if (winner == this.p1User) {
+        //p1 wins
+        userIncremented = this.p1User;
+        database.incrementDB(this.p1ID, randPoints, 0, Date.now());
+      } else {
+        //p2 wins
+        userIncremented = this.p2User;
+        database.incrementDB(this.p2ID, randPoints, 0, Date.now());
+      }
+      winnerEmbed.addField(
+        `Leaderboard:`,
+        `**${userIncremented}** has bested their opponent fair and square and so gains \`${randPoints}\` points in the *'messages'* category.`
+      );
+    }
     winnerEmbed.setTimestamp();
     winnerEmbed.setFooter({
       text: `${interaction.member.displayName}`,
@@ -140,6 +169,21 @@ class KumoRPS {
     drawEmbed.setDescription(
       `Seems that both players, **${player1User}** and **${player2User}** chose **${drawResponse}**.\n Great minds think alike but you always have the option to play again!\nRPS played at \`${this.startingTime}\` （‐＾▽＾‐）`
     );
+    //Playing against Kumo, no matter what, increases p1s leaderboard amount.
+    if (this.p2ID == null) {
+      let randPoints = Math.floor(Math.random() * 20) + 2;
+      drawEmbed.addField(
+        `Leaderboard:`,
+        `As **${this.p1User}** has chosen to play against Kumo, their leaderboard position will increase, no matter if you won or lost! **${this.p1User}** gained \`${randPoints}\` points in the *'messages'* category.`
+      );
+      database.incrementDB(this.p1ID, randPoints, 0, Date.now());
+    } else {
+      //If two humans play and it ends in a draw, no one gets points.
+      drawEmbed.addField(
+        `Leaderboard:`,
+        `Neither ${player1User} nor ${player2User} will get their leaderboard scores incremented.`
+      );
+    }
     drawEmbed.setTimestamp();
     drawEmbed.setFooter({
       text: `${interaction.member.displayName}`,
