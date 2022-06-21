@@ -133,16 +133,18 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
 ### Games:
 
 - **/kumomatch `opponent [OPTIONAL]` `playercolour` `opponentcolour`**: Start a game of Kumo Match! You have the option to play by yourself but I obviously recommend playing with 2 people. The game works by matching the chips corresponding to your colour. You must match **5** of these chips in a row, either horizontally, vertically or diagonally. I MAY add the ability to give extra leaderboard points to the winner but I'm not sure now.  
-(**Estimated game length**: `3` - `5` minutes)
+  (**Estimated game length**: `3` - `5` minutes)
 
 - **/kumoline `opponent [OPTIONAL]` `playercolour` `opponentcolour`**: Start a game of Kumo Line! Quite similar to Match but instead of 5 chips you must match 3 hearts in any direction BUT you can place these hearts in any position in the grid.  
-(**Estimated game length**: `1` - `2` minutes)
+  (**Estimated game length**: `1` - `2` minutes)
 
-- **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, turns are taken where both users are given a chance to respond with buttons, which is then collected and placed into a main embed. 18/06/22: Completed 1 player logic, just two player left. Both mechanics finished on 19/06/22 - Can be played 1 player (against the bot itself) or 2 players (specifying a user).  
-(**Estimated game length**: `0` - `1` minute)
+- ## **/kumorps `opponent [OPTIONAL]`**: Begin a short game of Kumo RPS. If no opponent is specified then you start the game playing against Kumo! If a user IS given, turns are taken where both users are given a chance to respond with buttons, which is then collected and placed into a main embed. 18/06/22: Completed 1 player logic, just two player left. Both mechanics finished on 19/06/22 - Can be played 1 player (against the bot itself) or 2 players (specifying a user).
+
+  - UPDATE 21/06/22: Added database integration. If you play against the bot, your score will increase no matter if you win, lose or draw. But in the situation of playing against a human - If you both draw, no points are awarded but whoever wins gets the points (you have the opportunity to recieve more points than if you played against Kumo.)  
+    (**Estimated game length**: `0` - `1` minute)
 
 - **/kumoduel `opponent` `basehp`**: Challenge a user to Kumo Duel! Base game + items finished on 10/06/22. Intended to be a turn based fighting game, with player inventories and transcripts.  
-(**Estimated game length**: `1` - `2` minutes, can be longer depending on base HP.)
+  (**Estimated game length**: `1` - `2` minutes, can be longer depending on base HP.)
 
   - **Items**:
     - **Red Apple**: _A shiny red apple!_ - Restores a constant **60** HP and consumes your turn, passing it to the opponent.
@@ -153,7 +155,7 @@ Do keep in mind that connecting to MongoDB is **NOT NEEDED** and the core, inten
     - **Coin-Filled Wallet**: _A smooth leather wallet which seems to only be filled with pennies?_ Increases your base attack by however many coins are found in your current wallet - 1 for each coin.
 
   Keep in mind that for attack-based items, you can still miss the attack completely and your item WILL get consumed with no effect. The only exception to this would be the **Shadow Cloak**, where if you miss, you still put the cloak on to recieve higher evasion.  
-  Health-based items are guaranteed to restore, no matter what.
+   Health-based items are guaranteed to restore, no matter what.
 
   - **Log Files**:
     - As the duel progress, each turn is saved into a **transcript**, represented using an array, which can then be viewed at the end of the duel inside an ephemeral embed if anyone wants to.
