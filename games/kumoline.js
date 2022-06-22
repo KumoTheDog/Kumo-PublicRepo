@@ -7,6 +7,8 @@ const GAMEWIDTH = 3;
 //Height of game board
 const GAMEHEIGHT = 3;
 
+const database = require("../events/databasehandler");
+
 /**
  * This game can be considered extremely similar to Kumo Match and thus, to increase code consistency, many functions are taken from that class
  * and refined in a particular way to fit this game.
@@ -47,6 +49,7 @@ class KumoLine {
     this.lastI = null;
     this.lastJ = null;
     this.lastPlayer = null;
+    this.lastPlayerID = null;
 
     //Turn the initial array into 2D, based on the height and width constants specified at the beginning of the file.
     for (let i = 0; i < GAMEHEIGHT; i++) {
@@ -246,6 +249,38 @@ class KumoLine {
           this.lastPlayer +
           " for winning the game! Hopefully you can keep up your streak..."
       );
+
+      //User plays against themselves. Gets less points.
+      if (this.p1ID == this.p2ID) {
+        console.log(
+          "A player has played kumo line by themselves so gets less points."
+        );
+        let randPoints = Math.floor(Math.random() * 10) + 2;
+        await database.incrementDB(
+          this.lastPlayerID,
+          randPoints,
+          0,
+          Date.now()
+        );
+        winnerEmbed.addField(
+          `Leaderboard:`,
+          `**${this.lastPlayer}** has chosen to play against themselves, their leaderboard position will increase but by a smaller amount - They gain \`${randPoints}\` points in the *'messages'* category.`
+        );
+      } else {
+        console.log("Two distinct players.");
+        //Two distinct players, the winner gets more points.
+        let randPoints = Math.floor(Math.random() * 30) + 2;
+        await database.incrementDB(
+          this.lastPlayerID,
+          randPoints,
+          0,
+          Date.now()
+        );
+        winnerEmbed.addField(
+          `Leaderboard:`,
+          `**${this.lastPlayer}** has bested their opponent fair and square and so gains \`${randPoints}\` points in the *'messages'* category.`
+        );
+      }
       await msg.edit({ embeds: [winnerEmbed], components: [] });
     } else {
       await msg.edit({ embeds: [editEmbed] });
@@ -263,8 +298,10 @@ class KumoLine {
     this.lastJ = j;
     if (this.currentPlayer == this.p1ID) {
       this.lastPlayer = this.p1User;
+      this.lastPlayerID = this.p1ID;
     } else {
       this.lastPlayer = this.p2User;
+      this.lastPlayerID = this.p2ID;
     }
   }
   /**
@@ -525,7 +562,7 @@ class KumoLine {
                       `The game has begun, but no one played a turn for \`${ms(
                         30000,
                         { compact: true }
-                      )}\` - Game has been stopped. ((´д｀))`
+                      )}\`- Game has been stopped. ((´д｀))`
                     );
 
                     await msg.edit({ embeds: [cooldownEnd], components: [] });
