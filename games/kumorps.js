@@ -110,7 +110,15 @@ class KumoRPS {
   }
   //Winner and loser are usernames. responses are string.
   //Generates a winner embed, ending the game. Quite reusable as it can also be interpreted as a LOSERs embed.
-  winningEmbed(winner, loser, winnerResponse, loserResponse, msg, interaction) {
+  winningEmbed(
+    winner,
+    loser,
+    winnerResponse,
+    loserResponse,
+    msg,
+    interaction,
+    incrementID
+  ) {
     clearTimeout(this.gameTimeout);
     const winnerEmbed = new MessageEmbed();
     winnerEmbed.setColor("#dda15c");
@@ -132,23 +140,18 @@ class KumoRPS {
         `Leaderboard:`,
         `As **${this.p1User}** has chosen to play against Kumo, their leaderboard position will increase, no matter if you won or lost! **${this.p1User}** gained \`${randPoints}\` points in the *'messages'* category.`
       );
-      database.incrementDB(this.p1ID, randPoints, 0, Date.now());
+      database.incrementDB(incrementID, randPoints, 0, Date.now());
     } else {
       //When playing with 2 players, the winner will get their leaderboard score updated. They also have the chance to earn more points
       let randPoints = Math.floor(Math.random() * 40) + 2;
       let userIncremented = null;
-      if (winner == this.p1User) {
-        //p1 wins
-        userIncremented = this.p1User;
-        database.incrementDB(this.p1ID, randPoints, 0, Date.now());
-      } else {
-        //p2 wins
-        userIncremented = this.p2User;
-        database.incrementDB(this.p2ID, randPoints, 0, Date.now());
-      }
+      incrementID == this.p1ID
+        ? (userIncremented = this.p1User)
+        : (userIncremented = this.p2User);
+      database.incrementDB(incrementID, randPoints, 0, Date.now());
       winnerEmbed.addField(
         `Leaderboard:`,
-        `**${userIncremented}** has bested their opponent fair and square and so gains \`${randPoints}\` points in the *'messages'* category.`
+        `**${userIncremented} has bested their opponent fair and square and so gains \`${randPoints}\` points in the *'messages'* category.`
       );
     }
     winnerEmbed.setTimestamp();
@@ -389,7 +392,8 @@ class KumoRPS {
                           this.p1Response,
                           kumoResponse,
                           msg,
-                          interaction
+                          interaction,
+                          this.p1ID
                         );
                       } else if (this.p1Response === kumoResponse) {
                         collector.stop();
@@ -410,7 +414,8 @@ class KumoRPS {
                           kumoResponse,
                           this.p1Response,
                           msg,
-                          interaction
+                          interaction,
+                          this.p1ID
                         );
                       }
                     }
@@ -494,7 +499,8 @@ class KumoRPS {
                                   this.p1Response,
                                   this.p2Response,
                                   msg,
-                                  interaction
+                                  interaction,
+                                  this.p1ID
                                 );
                               } else if (this.p1Response === this.p2Response) {
                                 collector.stop();
@@ -516,7 +522,8 @@ class KumoRPS {
                                   this.p2Response,
                                   this.p1Response,
                                   msg,
-                                  interaction
+                                  interaction,
+                                  this.p2ID
                                 );
                               }
                             }, 3000);
