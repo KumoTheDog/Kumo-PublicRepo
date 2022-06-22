@@ -8,6 +8,7 @@ module.exports = {
     .setDescription(
       "Check who has talked to Kumo the most in the last 30 days! Seperate leaderboard for text and voice."
     ),
+  timeout: 10000,
 
   run: async ({ client, interaction }) => {
     //Stops any unwanted inputs (in DMs.)
