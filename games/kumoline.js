@@ -196,8 +196,8 @@ class KumoLine {
       .setColor("#dda15c")
       .setDescription(this.gameToString())
       .addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-        newTurn + ": Awaiting " + newUser + "'s next move."
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
+        `${newTurn}: Awaiting **${newUser}**'s next move.`
       )
       .setTimestamp()
       .setFooter({
@@ -208,10 +208,10 @@ class KumoLine {
     clearTimeout(this.gameTimeout);
     this.gameTimeout = setTimeout(async () => {
       const cooldownEnd = new MessageEmbed(editEmbed);
-      cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+      cooldownEnd.setTitle("Kumo Line [TIMED OUT]");
       cooldownEnd.fields = [];
       cooldownEnd.addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
         `No one has played a turn in the last \`${ms(120000, {
           compact: true,
         })}\` - Game has been stopped. ((´д｀))`
@@ -223,10 +223,10 @@ class KumoLine {
     if (this.checkBoardFull() === true) {
       clearTimeout(this.gameTimeout);
       const fullEmbed = new MessageEmbed(editEmbed);
-      fullEmbed.title = fullEmbed.title + " [FULL]";
+      fullEmbed.setTitle("Kumo Line [FULL]");
       fullEmbed.fields = [];
       fullEmbed.addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
         "The board is full. No possible moves! No one wins this time."
       );
       await msg.edit({ embeds: [fullEmbed], components: [] });
@@ -237,17 +237,15 @@ class KumoLine {
     ) {
       clearTimeout(this.gameTimeout);
       const winnerEmbed = new MessageEmbed(editEmbed);
-      winnerEmbed.title = winnerEmbed.title + " [FINISHED]";
+      winnerEmbed.setTitle("Kumo Line [FINISHED]");
       winnerEmbed.fields = [];
       winnerEmbed.addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
         "Game is finished. A winner has been found!"
       );
       winnerEmbed.addField(
-        "Winner",
-        "Congratulations to " +
-          this.lastPlayer +
-          " for winning the game! Hopefully you can keep up your streak..."
+        "Winner:",
+        `Congratulations to **${this.lastPlayer}** for winning **Kumo Line**! Hopefully you can keep up your streak...`
       );
 
       //User plays against themselves. Gets less points.
@@ -434,7 +432,7 @@ class KumoLine {
           .setTitle("Welcome to Kumo Line!")
           .setColor("#dda15c")
           .addField(
-            "Game Description",
+            "Game Description:",
             `Match \`3\` hearts in a **line** to win. The numbers pointing down to each heart correspond to the **position** in which you can place it. The game will start in \`${ms(
               10000,
               {
@@ -531,11 +529,8 @@ class KumoLine {
                 .setColor("#dda15c")
                 .setDescription(this.gameToString())
                 .addField(
-                  "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-                  String(firstColour) +
-                    ": Awaiting " +
-                    newUser +
-                    "'s next move."
+                  "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
+                  `${String(firstColour)}: Awaiting **${newUser}**'s next move.`
                 )
                 .setTimestamp()
                 .setFooter({
@@ -555,10 +550,10 @@ class KumoLine {
                   //If a move occurs then the timeout of 2 minutes for each move begins.
                   this.gameTimeout = setTimeout(async () => {
                     const cooldownEnd = new MessageEmbed(mainGameEmbed);
-                    cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+                    cooldownEnd.setTitle("Kumo Line [TIMED OUT]");
                     cooldownEnd.fields = [];
                     cooldownEnd.addField(
-                      "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+                      "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
                       `The game has begun, but no one played a turn for \`${ms(
                         30000,
                         { compact: true }
