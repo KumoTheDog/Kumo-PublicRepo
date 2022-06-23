@@ -182,6 +182,7 @@ When I have time I plan to:
 - More accurate voice recognition - perhaps Kumo can respond to specific questions beginning with a certain command word, like its name?
 - Work on creating a more elegant design for Kumo overall, by improving the quality of the pictures!
 - Add some new commands, like Kumo's activities( /(total users/servers, runtime stats)...) and interactive games made using Discord JS. WORK IN PROGRESS: I am coming up with command ideas right now!
+- As of 23/06/22, all games have been integrated with the database, meaning you have the chance to get a large amount of points just by playing the games! Take this opportunity to boost your positions in the leaderboard.
 
 ## Contributing
 
