@@ -23,6 +23,7 @@ const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const itemEntities = require("../items/itemEntities");
 const responses = require("../resources/duelresponses.json");
 const ms = require("pretty-ms");
+const database = require("../events/databasehandler");
 
 class KumoDuel {
   constructor(interactingUser, opponentUser, hpAmount) {
@@ -61,6 +62,7 @@ class KumoDuel {
 
     //Reference to the last acting player.
     this.lastPlayer = null;
+    this.lastPlayerID = null;
 
     //Easy reference to the names of the 2 items in both player inventories.
     this.firstItemNameP1 = null;
@@ -172,7 +174,8 @@ class KumoDuel {
           reaction,
           msg,
           interaction,
-          username
+          username,
+          userChecking
         );
         //Once the user consumes an item in the slot it should be set to undefined.
         this.interactingUserItems[i] = undefined;
@@ -191,7 +194,8 @@ class KumoDuel {
           reaction,
           msg,
           interaction,
-          username
+          username,
+          userChecking
         );
         //Same for the opponent.
         this.opponentUserItems[i] = undefined;
@@ -256,7 +260,7 @@ class KumoDuel {
     if (this.checkWinningCondition(this.hpAmountP1, this.hpAmountP2) === true) {
       clearTimeout(this.gameTimeout);
       const winnerEmbed = new MessageEmbed(editEmbed);
-      winnerEmbed.setTitle("Kumo Duel [FINISHED]");
+      winnerEmbed.title = winnerEmbed.title + " [FINISHED]";
       winnerEmbed.fields = [];
       //The last player has to be the one who wins if they hit the other user to 0hp.
       winnerEmbed.addField(
@@ -265,8 +269,17 @@ class KumoDuel {
       );
 
       winnerEmbed.addField(
-        "Winner",
+        "Winner:",
         `Congratulations to **${this.lastPlayer}** for winning Kumo Duel! You are the (temporary) **master of duels**! ▨-▨¬ლ(•_•) (▨_▨¬)`
+      );
+
+      let randPoints = Math.floor(Math.random() * 70) + 2;
+      console.log(
+        "Player has won Kumo Duel. Their leaderboard score is incremented."
+      );
+      winnerEmbed.addField(
+        `Leaderboard:`,
+        `**${this.lastPlayer}** has bested their opponent fair and square and so gains \`${randPoints}\` points in the *'messages'* category.`
       );
 
       const logRow = new MessageActionRow().addComponents(
@@ -289,6 +302,8 @@ class KumoDuel {
         })
         .then(async (msg) => {
           console.log(`A kumo duel has finished.`);
+
+          database.incrementDB(this.lastPlayerID, randPoints, 0, Date.now());
 
           const collector = msg.createMessageComponentCollector({
             time: 60000,
@@ -362,11 +377,13 @@ class KumoDuel {
       if (this.p1Turn) {
         this.p1TurnCount++;
         this.lastPlayer = this.p1User;
+        this.lastPlayerID = this.p1ID;
         playerMissed = this.p1User;
       } else {
         //P2 misses
         this.p2TurnCount++;
         this.lastPlayer = this.p2User;
+        this.lastPlayerID = this.p2ID;
         playerMissed = this.p2User;
       }
       let missedResponse = `**${playerMissed}** ${this.generateRandomResponse(
@@ -390,6 +407,7 @@ class KumoDuel {
           this.hpAmountP2 = 0;
         }
         this.lastPlayer = this.p1User;
+        this.lastPlayerID = this.p1ID;
 
         playerAttacking = this.p1User;
         playerHit = this.p2User;
@@ -402,6 +420,7 @@ class KumoDuel {
           this.hpAmountP1 = 0;
         }
         this.lastPlayer = this.p2User;
+        this.lastPlayerID = this.p2ID;
 
         playerAttacking = this.p2User;
         playerHit = this.p1User;
@@ -486,7 +505,7 @@ class KumoDuel {
 
       .addField(
         "Items:",
-        `In their inventories, **${this.p1User}** had **'${this.firstItemNameP1}'** & **'${this.secondItemNameP1}'** and ${this.p2User} had **'${this.firstItemNameP2}'** & **'${this.secondItemNameP2}'**`
+        `In their inventories, **${this.p1User}** had **'${this.firstItemNameP1}'** & **'${this.secondItemNameP1}'** and **${this.p2User}** had **'${this.firstItemNameP2}'** & **'${this.secondItemNameP2}'**`
       )
 
       .setTimestamp()
@@ -503,11 +522,11 @@ class KumoDuel {
       logStr += this.logFileArray[i];
       //If the end of the array is reached and the character count < 1024, make a single field labelled 'transcript'
       if (i == this.logFileArray.length - 1 && characterCounter < 1024) {
-        logEmbed.addField("Transcript", logStr);
+        logEmbed.addField("Transcript:", logStr);
         break;
       }
       if (characterCounter + this.logFileArray[i].length >= 1000) {
-        logEmbed.addField("Transcript", logStr);
+        logEmbed.addField("Transcript:", logStr);
         //Field embed is reset to make space for a new field (fields can't have more than 1024 characters.)
         characterCounter = 0;
         logStr = "";
@@ -523,7 +542,7 @@ class KumoDuel {
 
   //Logic for the various items which the user can interact with throughout the lifetime of the duel.
   //For convienience, all items can be updated here.
-  async determinePerk(item, reaction, msg, interaction, username) {
+  async determinePerk(item, reaction, msg, interaction, username, userID) {
     switch (item) {
       case "laptop":
         this.increaseTurns(username);
@@ -537,7 +556,15 @@ class KumoDuel {
           const hackedEmbed = new MessageEmbed()
             .setTitle(`D̵̛̤̯̼̞́͒̅̈́U̷͔͙̘͍̇́̋̂͌̃̋E̵͍̠͒͒̒̊̒̽̄Ĺ̵̛̛̤͇͇̼̮͖̓̾̂͝ ̴̥̘̼͉̯͊H̷̢͚͈͇̬̲̩͆A̸̤͍̠͚͔͐̈̐͆̑C̶̝̗̤̀̀̆̍̓K̷͉̻̜̼͕͛̿̌̓̒̕͝E̴̥̺͂͋͘D̷͚̥̪͓͙̀`)
             .setColor("#dda15c")
-            .setDescription(hackMessage);
+            .setDescription(hackMessage)
+            .addField(
+              "Leaderboard:",
+              `**${username}** feels like giving themselves \`70\` points in the *'messages'* category. Because they can!`
+            );
+          console.log(
+            "Player has won Kumo Duel through hacking. Their leaderboard score is incremented."
+          );
+          await database.incrementDB(userID, 70, 0, Date.now());
 
           //If the duel is hacked you still have the option to view log files.
           //The log file can only be viewed upon winning OR hack, not if the game times out (treated as abandoned.)
@@ -714,7 +741,7 @@ class KumoDuel {
             })}\` to make their first move, which then transforms into a \`${ms(
               120000,
               { compact: true }
-            )}\` timer for both players. If a timeout occurs, the duel is treated as **abandoned** and therefore concludes as a **draw**.`
+            )}\` timer for both players. If a timeout occurs, the duel is treated as **abandoned** and therefore concludes as a **draw**. In this case, **no leaderboard points** are awarded to anyone.`
           )
 
           .setTimestamp()
@@ -789,7 +816,7 @@ class KumoDuel {
                 //If a move occurs then the timeout of 2 minutes for each move begins.
                 this.gameTimeout = setTimeout(async () => {
                   const cooldownEnd = new MessageEmbed(mainGameEmbed);
-                  cooldownEnd.setTitle("Kumo Duel [TIMED OUT]");
+                  cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
                   cooldownEnd.fields = [];
                   cooldownEnd.addField(
                     "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
