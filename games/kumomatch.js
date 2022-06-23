@@ -8,6 +8,8 @@ const GAMEWIDTH = 9;
 //Height of game board
 const GAMEHEIGHT = 9;
 
+const database = require("../events/databasehandler");
+
 class KumoMatch {
   //Begin initialising instances of game.
   constructor(interactingUser, opponentUser, p1ColourChoice, p2ColourChoice) {
@@ -43,6 +45,7 @@ class KumoMatch {
     this.lastArrayPosition = null;
     this.lastCol = null;
     this.lastPlayer = null;
+    this.lastPlayerID = null;
 
     //Turn the initial array into 2D, based on the height and width constants specified at the beginning of the file.
     for (let i = 0; i < GAMEHEIGHT; i++) {
@@ -254,6 +257,38 @@ class KumoMatch {
           this.lastPlayer +
           " for winning Kumo Match! Hopefully you can keep up your streak..."
       );
+      //User plays against themselves so gets less points - very easy for them to win.
+      //As Kumo Match is one of the longer games, more points should be awarded.
+      if (this.p1ID == this.p2ID) {
+        console.log(
+          "A player has played kumo match by themselves so gets less points."
+        );
+        let randPoints = Math.floor(Math.random() * 20) + 2;
+        await database.incrementDB(
+          this.lastPlayerID,
+          randPoints,
+          0,
+          Date.now()
+        );
+        winnerEmbed.addField(
+          `Leaderboard:`,
+          `**${this.lastPlayer}** has chosen to play against themselves, their leaderboard position will increase but by a smaller amount than if they were to play against someone - They gain \`${randPoints}\` points in the *'messages'* category.`
+        );
+      } else {
+        console.log("Two distinct players.");
+        //Two distinct players, the winner gets more points.
+        let randPoints = Math.floor(Math.random() * 60) + 2;
+        await database.incrementDB(
+          this.lastPlayerID,
+          randPoints,
+          0,
+          Date.now()
+        );
+        winnerEmbed.addField(
+          `Leaderboard:`,
+          `**${this.lastPlayer}** has bested their opponent fair and square and so gains \`${randPoints}\` points in the *'messages'* category.`
+        );
+      }
       await msg.edit({ embeds: [winnerEmbed], components: [] });
     } else {
       await msg.edit({ embeds: [editEmbed] });
@@ -271,8 +306,10 @@ class KumoMatch {
         this.lastCol = colNumber - 1;
         if (this.currentPlayer == this.p1ID) {
           this.lastPlayer = this.p1User;
+          this.lastPlayerID = this.p1ID;
         } else {
           this.lastPlayer = this.p2User;
+          this.lastPlayerID = this.p2ID;
         }
         break;
       } else {
