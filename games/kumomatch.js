@@ -198,12 +198,12 @@ class KumoMatch {
       this.currentPlayer = this.p2ID;
     }
     const editEmbed = new MessageEmbed()
-      .setTitle("Welcome to Kumo Match!")
+      .setTitle("Kumo Match [ONGOING]")
       .setColor("#dda15c")
       .setDescription(this.gameToString())
       .addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-        newTurn + ": Awaiting " + newUser + "'s next move."
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
+        `${newTurn}: Awaiting **${newUser}**'s next move.`
       )
       .setTimestamp()
       .setFooter({
@@ -215,10 +215,10 @@ class KumoMatch {
     clearTimeout(this.gameTimeout);
     this.gameTimeout = setTimeout(async () => {
       const cooldownEnd = new MessageEmbed(editEmbed);
-      cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+      cooldownEnd.setTitle("Kumo Match [TIMED OUT]");
       cooldownEnd.fields = [];
       cooldownEnd.addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
         `No one has played a turn in the last \`${ms(120000, {
           compact: true,
         })}\` - Game has been stopped. ((´д｀))`
@@ -230,10 +230,10 @@ class KumoMatch {
     if (this.checkBoardFull() === true) {
       clearTimeout(this.gameTimeout);
       const fullEmbed = new MessageEmbed(editEmbed);
-      fullEmbed.title = fullEmbed.title + " [FULL]";
+      fullEmbed.setTitle("Kumo Match [FULL]");
       fullEmbed.fields = [];
       fullEmbed.addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
         "The board is full. No possible moves! No one wins this time."
       );
       await msg.edit({ embeds: [fullEmbed], components: [] });
@@ -245,17 +245,15 @@ class KumoMatch {
     ) {
       clearTimeout(this.gameTimeout);
       const winnerEmbed = new MessageEmbed(editEmbed);
-      winnerEmbed.title = winnerEmbed.title + " [FINISHED]";
+      winnerEmbed.setTitle("Kumo Match [FINISHED]");
       winnerEmbed.fields = [];
       winnerEmbed.addField(
-        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+        "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
         "Game is finished. No more moves can occur!"
       );
       winnerEmbed.addField(
-        "Winner",
-        "Congratulations to " +
-          this.lastPlayer +
-          " for winning Kumo Match! Hopefully you can keep up your streak..."
+        "Winner:",
+        `Congratulations to **${this.lastPlayer}** for winning **Kumo Match**! Hopefully you can keep up your streak...`
       );
       //User plays against themselves so gets less points - very easy for them to win.
       //As Kumo Match is one of the longer games, more points should be awarded.
@@ -503,7 +501,7 @@ class KumoMatch {
           .setColor("#dda15c")
           .setDescription(this.gameRepresentationToString())
           .addField(
-            "Game Description",
+            "Game Description:",
             `Match \`5\` of your chips in a row, in any orientation across the board. You win the game by having a line of \`5\` chips **vertically, horizontally or diagonally**. The game will start in \`${ms(
               10000,
               {
@@ -574,12 +572,12 @@ class KumoMatch {
                 .setStyle("DANGER")
             );
             const mainGameEmbed = new MessageEmbed()
-              .setTitle("Welcome to Kumo Match!")
+              .setTitle("Kumo Match")
               .setColor("#dda15c")
               .setDescription(this.gameToString())
               .addField(
-                "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
-                String(firstColour) + ": Awaiting " + newUser + "'s next move."
+                "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
+                `${String(firstColour)}: Awaiting **${newUser}**'s next move.`
               )
               .setTimestamp()
               .setFooter({
@@ -600,10 +598,10 @@ class KumoMatch {
                 //If a move occurs then the timeout of 2 minutes for each move begins.
                 this.gameTimeout = setTimeout(async () => {
                   const cooldownEnd = new MessageEmbed(mainGameEmbed);
-                  cooldownEnd.title = cooldownEnd.title + " [TIMED OUT]";
+                  cooldownEnd.setTitle("Kumo Match [TIMED OUT]");
                   cooldownEnd.fields = [];
                   cooldownEnd.addField(
-                    "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა",
+                    "Current Turn ૮ ˶ᵔ ᵕ ᵔ˶ ა:",
                     `The game has begun, but no one played a turn for \`${ms(
                       30000,
                       { compact: true }
