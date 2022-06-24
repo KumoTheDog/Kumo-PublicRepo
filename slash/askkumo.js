@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { MessageEmbed } = require("discord.js");
+const database = require("../events/databasehandler");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -92,6 +93,7 @@ module.exports = {
         break;
     }
 
+    await database.incrementDB(interaction.user.id, 1, 0, Date.now());
     await interaction
       .editReply({ embeds: [embed], files: [arr[0], arr[1]] })
       .then(console.log(`Sent ${rand} reply.`))
