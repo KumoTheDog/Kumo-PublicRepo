@@ -7,9 +7,8 @@ const fs = require("fs");
 const { Player } = require("discord-player");
 const mongoose = require("mongoose");
 const ms = require("pretty-ms");
-const Messages = require("./models/benSchema2");
 
-const modal = require("./events/ModalSubmit.js");
+const modal = require("./events/modal");
 
 env.config();
 const TOKEN = process.env.BOTTOKEN;
@@ -103,16 +102,12 @@ client.on("ready", async () => {
   })();
 
   /**
-   * Dynamically changes the bot activity every minute and 10 seconds.
+   * Sets the activity of the bot to include the total number of users in all guilds, calculated on bot login.
    */
   let newAct = 0;
   const activityArray = [
     { type: "LISTENING", message: `questions! | /help` },
     { type: "PLAYING", message: `with ${totalMembers} users! | /help` },
-    {
-      type: "PLAYING",
-      message: `${fs.readdirSync("./slash").length} commands! | /help`,
-    },
   ];
   setInterval(() => {
     newAct = (newAct + 1) % activityArray.length;
@@ -125,7 +120,7 @@ client.on("ready", async () => {
       ],
       status: "idle",
     });
-  }, 70000);
+  }, 60000);
 
   console.log(`${client.user.tag}: Kumo has now logged in.`);
   await new Promise((res) => setTimeout(() => res(2), 500));
@@ -165,54 +160,6 @@ client.on("interactionCreate", async (interaction) => {
     }
   }
   handleCommand();
-
-  if (interaction.commandName === "askkumo" && !(Date.now() - t < 0)) {
-    if (dbToken && process.env.ASTRING && process.env.BSTRING) {
-      let messageUser = await Messages.findOne({
-        Partial: interaction.user.id.slice(0, 8),
-      })
-        .clone()
-        .catch(function (err) {
-          console.log(err);
-        });
-      console.log(messageUser);
-
-      if (!messageUser) {
-        messageUser = new Messages({
-          Partial: interaction.user.id.slice(0, 8),
-          UserID: interaction.user.id,
-          messages: 0,
-          voiceMessages: 0,
-          made_at: Date.now(),
-        });
-        await messageUser.save().catch((e) => console.log(e));
-      }
-
-      await Messages.findOne(
-        {
-          Partial: interaction.user.id.slice(0, 8),
-        },
-        async (err, dUser) => {
-          dUser.messages += 1;
-          await dUser.save().catch((e) => console.log(e));
-        }
-      )
-        .clone()
-        .catch(function (err) {
-          console.log(err);
-        });
-
-      console.log(
-        "📗: The encrypted entry beginning with key " +
-          interaction.user.id.slice(0, 8) +
-          " has been increased!"
-      );
-    } else {
-      console.warn(
-        "📙: As no database has been supplied, or missing encryption/signing key scores have not been increased."
-      );
-    }
-  }
 });
 
 /**
