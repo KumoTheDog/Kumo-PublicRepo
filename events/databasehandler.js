@@ -18,6 +18,7 @@ async function addPointsToUser(
 
     //If no user matching the criteria is found, a new entry is made for the user.
     if (!messageUser) {
+      console.log("New DB user has been created.");
       messageUser = new Messages({
         Partial: userID.slice(0, 8),
         UserID: userID,
