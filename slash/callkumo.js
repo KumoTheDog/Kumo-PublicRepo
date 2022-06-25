@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { createReadStream } = require("node:fs");
 const { join } = require("node:path");
-const Messages = require("../models/benSchema2");
 const ms = require("pretty-ms");
 const {
   createAudioPlayer,
@@ -11,6 +10,7 @@ const {
   VoiceConnectionStatus,
   entersState,
 } = require("@discordjs/voice");
+const database = require("../events/databasehandler");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -201,54 +201,7 @@ module.exports = {
             /**
              * Increment voice score by one if database is supplied. If none given in .env, no score is increased.
              */
-            if (
-              process.env.DBTOKEN &&
-              process.env.ASTRING &&
-              process.env.BSTRING
-            ) {
-              let messageUser = await Messages.findOne({
-                Partial: userId.slice(0, 8),
-              })
-                .clone()
-                .catch(function (err) {
-                  console.log(err);
-                });
-
-              if (!messageUser) {
-                messageUser = new Messages({
-                  Partial: userId.slice(0, 8),
-                  UserID: userId,
-                  messages: 0,
-                  voiceMessages: 0,
-                  made_at: Date.now(),
-                });
-                await messageUser.save().catch((e) => console.log(e));
-              }
-
-              await Messages.findOne(
-                {
-                  Partial: userId.slice(0, 8),
-                },
-                async (err, dUser) => {
-                  dUser.voiceMessages += 1;
-                  await dUser.save().catch((e) => console.log(e));
-                }
-              )
-                .clone()
-                .catch(function (err) {
-                  console.log(err);
-                });
-
-              console.log(
-                "📗: The encrypted entry beginning with key " +
-                  userId.slice(0, 8) +
-                  " has been increased!"
-              );
-            } else {
-              console.warn(
-                "📙: As no database has been supplied, or missing encryption/signing key scores have not been increased."
-              );
-            }
+            await database.incrementDB(userId, 0, 1, Date.now());
           }
         });
 
