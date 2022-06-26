@@ -178,7 +178,7 @@ This part will get updated as new commands roll out. I am happy to explain any c
 
 When I have time I plan to:
 
-- Create a basic website for Kumo displaying the commands in action alongside displaying miscellaneous links to invite Kumo to your server and its stats.
+- Create a basic website for Kumo displaying the commands in action alongside displaying miscellaneous links to invite Kumo to your server and its stats. AS OF 25/06/22, this website has begun creation!
 - More accurate voice recognition - perhaps Kumo can respond to specific questions beginning with a certain command word, like its name?
 - Work on creating a more elegant design for Kumo overall, by improving the quality of the pictures!
 - Add some new commands, like Kumo's activities( /(total users/servers, runtime stats)...) and interactive games made using Discord JS. WORK IN PROGRESS: I am coming up with command ideas right now!
