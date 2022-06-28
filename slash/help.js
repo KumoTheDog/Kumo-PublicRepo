@@ -21,7 +21,7 @@ module.exports = {
     embed.setDescription("All functioning commands can be found below!");
     embed.addField(
       `**/askkumo \`<Questions>\`:**`,
-      "Ask Kumo a question in the current text channel. Everyone has a cooldown of `10s`."
+      "Ask Kumo a question in the current text channel. Everyone has a cooldown of `10s`**/question** alongside a `1000` character limit."
     );
     embed.addField(
       `**/callkumo:**`,
